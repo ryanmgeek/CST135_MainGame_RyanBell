@@ -11,7 +11,7 @@ using std::cin;
 using std::endl;
 using std::string;
 
-
+//Test
 const int SCREEN_WIDTH = 640;						//Screen dimension constant for Width
 const int SCREEN_HEIGHT = 480;						//Screen dimension constant for Height
 
