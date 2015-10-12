@@ -1,0 +1,20 @@
+﻿Build started 10/12/2015 9:33:21 AM.
+     1>Project "z:\documents\visual studio 2015\Projects\CST136_MainGame_Ryan_Bell\CST136_MainGame_Ryan_Bell\CST136_MainGame_Ryan_Bell.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt cKeyboard.cpp cMainGame.cpp Source.cpp
+         Source.cpp
+     1>z:\documents\visual studio 2015\projects\cst136_maingame_ryan_bell\cst136_maingame_ryan_bell\cmaingame.h(36): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+         cMainGame.cpp
+     1>z:\documents\visual studio 2015\projects\cst136_maingame_ryan_bell\cst136_maingame_ryan_bell\cmaingame.h(36): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+         cKeyboard.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"z:\documents\visual studio 2015\Projects\CST136_MainGame_Ryan_Bell\Debug\CST136_MainGame_Ryan_Bell.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"z:\documents\visual studio 2015\Projects\CST136_MainGame_Ryan_Bell\Debug\CST136_MainGame_Ryan_Bell.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"z:\documents\visual studio 2015\Projects\CST136_MainGame_Ryan_Bell\Debug\CST136_MainGame_Ryan_Bell.lib" /MACHINE:X86 Debug\cKeyboard.obj
+         Debug\cMainGame.obj
+         Debug\Source.obj
+         CST136_MainGame_Ryan_Bell.vcxproj -> z:\documents\visual studio 2015\Projects\CST136_MainGame_Ryan_Bell\Debug\CST136_MainGame_Ryan_Bell.exe
+     1>Done Building Project "z:\documents\visual studio 2015\Projects\CST136_MainGame_Ryan_Bell\CST136_MainGame_Ryan_Bell\CST136_MainGame_Ryan_Bell.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:07.43
