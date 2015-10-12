@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>z:\documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>z:\documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\SDL\lib\win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Ryanmgeek\Documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\SDL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Ryanmgeek\Documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\SDL\lib\win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,11 +125,13 @@
   <ItemGroup>
     <ClCompile Include="cKeyboard.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cSurfaceManager.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cKeyboard.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cSurfaceManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

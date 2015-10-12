@@ -41,21 +41,107 @@ class cMainGame
 {
 
 public:
-
+/******************************************************************************************
+*	Purpose: Construct game window and initialize members
+*
+*	Entry: MainGame object is instantiated
+*
+*	Exit: Each data member is initialized to passed data value
+*
+******************************************************************************************/
 	cMainGame(SDL_Window*, SDL_Surface*, SDL_Surface*, string);
-	//CTOR- creating Window, surface, image, command line argument
-	cMainGame();			//Default cTor for instantiated objs with no parameters
-	~cMainGame();			//DTOR- Frees memory destroying object
 
-	bool init();							//Initialize new window
-	bool loadMedia();						//Load Media to window
-	void close();							//Close window and free memory
+/******************************************************************************************
+*	Purpose: Default constructor if an object is instantiated to null parameters
+*
+*	Entry: MainGame object is instantiated
+*
+*	Exit: Each data member is initialized to null data value
+*
+******************************************************************************************/
+	cMainGame();
 
-	SDL_Surface* GetLoadedImg();			//Get object's member img surface
-	SDL_Surface* GetgScreenSurface();		//Get object's member screen surface
+/******************************************************************************************
+*	Purpose: Destroy mainGame object
+*
+*	Entry: Object goes out of scope
+*
+*	Exit: Requested memory is freed and pointers set back to null
+*
+******************************************************************************************/
+	~cMainGame();			
+
+/******************************************************************************************
+*	Purpose: Initialize Game Window
+*
+*	Entry: function is called for a cMainGame object
+*
+*	Exit: SDL is initialized and a default gWindow is created for the object. The windows
+*		  surface is stored into the data member of gScreenSurface for later use.
+*		  Initialization is check for an thrown exceptions.
+*
+******************************************************************************************/
+	bool init();							
+
+/******************************************************************************************
+*	Purpose: Loads BMP onto image surface
+*
+*	Entry: member function is called for object
+*
+*	Exit: image is loaded in image load surface, and checked for success.
+*
+******************************************************************************************/
+	bool loadMedia();		
+
+/******************************************************************************************
+*	Purpose: Deallocate resources and free memory
+*
+*	Entry: member is function is called for mainGame object
+*
+*	Exit: Image surface, window, and SDL are freed from memory and pointer nulled
+*
+******************************************************************************************/
+	void close();							
+
+/******************************************************************************************
+*	Purpose: Get member Image surface
+*
+*	Entry: Member function is called for mainGame object
+*
+*	Exit: returns loadedImg member surface for object
+*
+******************************************************************************************/
+	SDL_Surface* GetLoadedImg();			
+
+/******************************************************************************************
+*	Purpose: Get member screen Surface
+*
+*	Entry: Member function is called for mainGame object
+*
+*	Exit: Returns screen surface member for object
+*
+******************************************************************************************/
+	SDL_Surface* GetgScreenSurface();	
+
+/******************************************************************************************
+*	Purpose: Get member window
+*
+*	Entry: Member function is called for mainGame object
+*
+*	Exit: Returns window member for object
+*
+******************************************************************************************/
 	SDL_Window* GetgWindow();				//Get Objects's member window
 
-	void GameLoop();						//Loop Game until user enter Quit
+/******************************************************************************************
+*	Purpose: Control Game loop
+*
+*	Entry: Member function is called for mainGame object
+*
+*	Exit: Keeps game running until enters Quit
+*
+******************************************************************************************/
+	void GameLoop();						
 
 	SDL_Window* gWindow;					//The window we'll be rendering to
 	SDL_Surface* gScreenSurface;			//The surface contained by the window
@@ -69,6 +155,14 @@ private:
 
 	SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 
+/******************************************************************************************
+*	Purpose: __________________________________________
+*
+*	Entry: ____________________________________________
+*
+*	Exit: _____________________________________________
+*
+******************************************************************************************/
 	SDL_Surface* loadSurface(string imgPath);
 };
 

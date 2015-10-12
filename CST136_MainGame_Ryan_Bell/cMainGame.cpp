@@ -15,28 +15,12 @@ using std::string;
 const int SCREEN_WIDTH = 640;						//Screen dimension constant for Width
 const int SCREEN_HEIGHT = 480;						//Screen dimension constant for Height
 
-													/******************************************************************************************
-													*	Purpose: Construct game window and initialize members
-													*
-													*	Entry: MainGame object is instantiated
-													*
-													*	Exit: Each data member is initialized to passed data value
-													*
-													******************************************************************************************/
+
 cMainGame::cMainGame(SDL_Window* gWindow, SDL_Surface* gScreenSurface,
 	SDL_Surface* loadedImg, string imgName) : m_imgName(imgName),
-	m_gWindow(gWindow), m_gScreenSurface(gScreenSurface), m_loadedImg(loadedImg)
-{
-}
+	m_gWindow(gWindow), m_gScreenSurface(gScreenSurface), m_loadedImg(loadedImg) {}
 
-/******************************************************************************************
-*	Purpose: Default constructor if an object is instantiated to null parameters
-*
-*	Entry: MainGame object is instantiated
-*
-*	Exit: Each data member is initialized to null data value
-*
-******************************************************************************************/
+
 cMainGame::cMainGame()
 {
 	SDL_Window* gWindow = m_gWindow = nullptr;
@@ -45,31 +29,11 @@ cMainGame::cMainGame()
 	string m_imgname = "\0";
 }
 
-/******************************************************************************************
-*	Purpose: Destroy mainGame object
-*
-*	Entry: Object goes out of scope
-*
-*	Exit: Requested memory is freed and pointers set back to null
-*
-******************************************************************************************/
-cMainGame::~cMainGame()
-{
-}
+cMainGame::~cMainGame(){}
 
-/******************************************************************************************
-*	Purpose: Initialize Game Window
-*
-*	Entry: function is called for a cMainGame object
-*
-*	Exit: SDL is initialized and a default gWindow is created for the object. The windows
-*		  surface is stored into the data member of gScreenSurface for later use.
-*		  Initialization is check for an thrown exceptions.
-*
-******************************************************************************************/
 bool cMainGame::init()
 {
-	bool success = true;	//Initialization flag
+	bool success = true;				//Initialization flag
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)	//Initialize SDL
 	{
@@ -96,14 +60,7 @@ bool cMainGame::init()
 	return success;
 }
 
-/******************************************************************************************
-*	Purpose: Loads BMP onto image surface
-*
-*	Entry: member function is called for object
-*
-*	Exit: image is loaded in image load surface, and checked for success.
-*
-******************************************************************************************/
+
 bool cMainGame::loadMedia()
 {
 	bool success = true;	//Loading success flag
@@ -128,14 +85,7 @@ bool cMainGame::loadMedia()
 	return success;
 }
 
-/******************************************************************************************
-*	Purpose: Deallocate resources and free memory
-*
-*	Entry: member is function is called for mainGame object
-*
-*	Exit: Image surface, window, and SDL are freed from memory and pointer nulled
-*
-******************************************************************************************/
+
 void cMainGame::close()
 {
 
@@ -148,14 +98,7 @@ void cMainGame::close()
 	SDL_Quit();					//Destroy window
 }
 
-/******************************************************************************************
-*	Purpose: Control Game loop
-*
-*	Entry: Member function is called for mainGame object
-*
-*	Exit: Keeps game running until enters Quit
-*
-******************************************************************************************/
+
 void cMainGame::GameLoop()
 {
 	bool quitGame = false;
@@ -186,14 +129,7 @@ void cMainGame::GameLoop()
 
 }
 
-/******************************************************************************************
-*	Purpose: __________________________________________
-*
-*	Entry: ____________________________________________
-*
-*	Exit: _____________________________________________
-*
-******************************************************************************************/
+
 SDL_Surface* cMainGame::loadSurface(string imgPath)
 {
 	//Load image at specified path
@@ -207,40 +143,19 @@ SDL_Surface* cMainGame::loadSurface(string imgPath)
 	return loadedSurface;
 }
 
-/******************************************************************************************
-*	Purpose: Get member Image surface
-*
-*	Entry: Member function is called for mainGame object
-*
-*	Exit: returns loadedImg member surface for object
-*
-******************************************************************************************/
+
 SDL_Surface* cMainGame::GetLoadedImg()
 {
 	return m_loadedImg;
 }
 
-/******************************************************************************************
-*	Purpose: Get member screen Surface
-*
-*	Entry: Member function is called for mainGame object
-*
-*	Exit: Returns screen surface member for object
-*
-******************************************************************************************/
+
 SDL_Surface* cMainGame::GetgScreenSurface()
 {
 	return m_gScreenSurface;
 }
 
-/******************************************************************************************
-*	Purpose: Get member window
-*
-*	Entry: Member function is called for mainGame object
-*
-*	Exit: Returns window member for object
-*
-******************************************************************************************/
+
 SDL_Window* cMainGame::GetgWindow()
 {
 	return m_gWindow;
