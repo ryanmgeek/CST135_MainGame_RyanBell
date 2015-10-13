@@ -33,7 +33,8 @@
 
 #include <SDL.h>
 #include <string>
-#include "cKeyboard.h""
+#include "cKeyboard.h"
+#include "cSurfaceManager.h"
 
 using std::string;
 
@@ -41,26 +42,8 @@ class cMainGame
 {
 
 public:
-/******************************************************************************************
-*	Purpose: Construct game window and initialize members
-*
-*	Entry: MainGame object is instantiated
-*
-*	Exit: Each data member is initialized to passed data value
-*
-******************************************************************************************/
-	cMainGame(SDL_Window*, SDL_Surface*, SDL_Surface*, string);
 
-/******************************************************************************************
-*	Purpose: Default constructor if an object is instantiated to null parameters
-*
-*	Entry: MainGame object is instantiated
-*
-*	Exit: Each data member is initialized to null data value
-*
-******************************************************************************************/
 	cMainGame();
-
 /******************************************************************************************
 *	Purpose: Destroy mainGame object
 *
@@ -81,17 +64,7 @@ public:
 *		  Initialization is check for an thrown exceptions.
 *
 ******************************************************************************************/
-	bool init();							
-
-/******************************************************************************************
-*	Purpose: Loads BMP onto image surface
-*
-*	Entry: member function is called for object
-*
-*	Exit: image is loaded in image load surface, and checked for success.
-*
-******************************************************************************************/
-	bool loadMedia();		
+	bool init();								
 
 /******************************************************************************************
 *	Purpose: Deallocate resources and free memory
@@ -104,36 +77,6 @@ public:
 	void close();							
 
 /******************************************************************************************
-*	Purpose: Get member Image surface
-*
-*	Entry: Member function is called for mainGame object
-*
-*	Exit: returns loadedImg member surface for object
-*
-******************************************************************************************/
-	SDL_Surface* GetLoadedImg();			
-
-/******************************************************************************************
-*	Purpose: Get member screen Surface
-*
-*	Entry: Member function is called for mainGame object
-*
-*	Exit: Returns screen surface member for object
-*
-******************************************************************************************/
-	SDL_Surface* GetgScreenSurface();	
-
-/******************************************************************************************
-*	Purpose: Get member window
-*
-*	Entry: Member function is called for mainGame object
-*
-*	Exit: Returns window member for object
-*
-******************************************************************************************/
-	SDL_Window* GetgWindow();				//Get Objects's member window
-
-/******************************************************************************************
 *	Purpose: Control Game loop
 *
 *	Entry: Member function is called for mainGame object
@@ -141,29 +84,10 @@ public:
 *	Exit: Keeps game running until enters Quit
 *
 ******************************************************************************************/
-	void GameLoop();						
-
-	SDL_Window* gWindow;					//The window we'll be rendering to
-	SDL_Surface* gScreenSurface;			//The surface contained by the window
-	SDL_Surface* loadedImg;					//The image we will load and show on the screen
+	void GameLoop(cSurfaceManager windowObj);
 
 private:
-	SDL_Window* m_gWindow;					//Member Window
-	SDL_Surface* m_gScreenSurface;			//Member Screen Surface
-	SDL_Surface* m_loadedImg;				//Member Image
-	string m_imgName;						//Command Line Argument 
-
-	SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
-
-/******************************************************************************************
-*	Purpose: __________________________________________
-*
-*	Entry: ____________________________________________
-*
-*	Exit: _____________________________________________
-*
-******************************************************************************************/
-	SDL_Surface* loadSurface(string imgPath);
+	
 };
 
 #endif

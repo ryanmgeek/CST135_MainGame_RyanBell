@@ -1,13 +1,8 @@
-﻿Build started 10/12/2015 3:59:47 PM.
+﻿Build started 10/12/2015 5:49:07 PM.
      1>Project "C:\Users\Ryanmgeek\Documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\CST136_MainGame_Ryan_Bell\CST136_MainGame_Ryan_Bell.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt cMainGame.cpp cSurfaceManager.cpp Source.cpp
-         Source.cpp
-     1>c:\users\ryanmgeek\documents\visual studio 2015\projects\cst136_maingame_ryan_bell\cst136_maingame_ryan_bell\cmaingame.h(36): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt cSurfaceManager.cpp
          cSurfaceManager.cpp
-         cMainGame.cpp
-     1>c:\users\ryanmgeek\documents\visual studio 2015\projects\cst136_maingame_ryan_bell\cst136_maingame_ryan_bell\cmaingame.h(36): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ryanmgeek\Documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\Debug\CST136_MainGame_Ryan_Bell.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Ryanmgeek\Documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\Debug\CST136_MainGame_Ryan_Bell.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ryanmgeek\Documents\Visual Studio 2015\Projects\CST136_MainGame_Ryan_Bell\Debug\CST136_MainGame_Ryan_Bell.lib" /MACHINE:X86 Debug\cKeyboard.obj
          Debug\cMainGame.obj
@@ -18,4 +13,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.44
+Time Elapsed 00:00:00.66

@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "cMainGame.h"
-
+#include "cSurfaceManager.h"
 using std::cout;
 using std::endl;
 
@@ -47,32 +47,22 @@ int main(int argc, char* argv[])
 		SDL_Surface* gScreenSurface = nullptr;	 //Initialize gScreenSurface to null value
 		SDL_Surface* loadedImg = nullptr;		 //Initialize loaded Image to null value
 
-		cMainGame mainGameWindow(gWindow, gScreenSurface, loadedImg, argv[1]); //Create Obj
+		cMainGame mainGame;						//Create Obj
+		cSurfaceManager windowOne(gWindow, gScreenSurface, loadedImg, argv[1]);
 
-		if (!mainGameWindow.init())				//Start up SDL and create window
+		if (!mainGame.init() || !windowOne.loadMedia())	   //Start up SDL and create window
 		{
 			cout << "Failed to initialize!\n";
 		}
 		else
 		{
-			if (!mainGameWindow.loadMedia())	//Load media
-			{
-				cout << "Failed to load media!\n";
-			}
-			else
-			{
-
-				SDL_BlitSurface(mainGameWindow.GetLoadedImg(),		   //Apply the image
-					NULL, mainGameWindow.GetgScreenSurface(), NULL);
-
-				SDL_UpdateWindowSurface(mainGameWindow.GetgWindow());  //Update the surface	
-				mainGameWindow.GameLoop();							   //Enter Game loop
-				SDL_Delay(2000);									   //Wait two seconds
-																	   //Call game Loop Function
-			}
+			SDL_UpdateWindowSurface(windowOne.GetgWindow());	//Update the surface	
+			mainGame.GameLoop(windowOne);						//Enter Game loop
+			SDL_Delay(2000);									//Wait two seconds
 		}
 
-		mainGameWindow.close();								//Free resources and close SDL
+		windowOne.FreeSurfaces();								//Free resource & close SDL
+		mainGame.close();								
 	}
 
 	return 0;

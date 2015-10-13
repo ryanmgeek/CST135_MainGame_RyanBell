@@ -19,7 +19,8 @@ public:
 	cKeyboard();
 	~cKeyboard();
 
-	SDL_Surface* InterpretInput(SDL_Event sdlEvents, SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL]);
+	SDL_Surface* InterpretInput(SDL_Event sdlEvents,
+								  SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL]);
 private:
 
 };
