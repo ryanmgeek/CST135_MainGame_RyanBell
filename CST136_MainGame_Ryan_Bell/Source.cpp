@@ -1,10 +1,10 @@
 //Main.cpp
 /******************************************************************************************
 * Author:							Ryan Bell
-* Date Created:						9/27/15
-* Last Modification Date:			10/01/15
-* Lab Number:						CST 136 Lab 1
-* Filename:							CST136_lab1_Ryan Bell_Main.cpp
+* Date Created:						10/06/15
+* Last Modification Date:			10/12/15
+* Lab Number:						CST 136 Lab 2
+* Filename:							CST136_lab2_Ryan Bell
 *
 *	Overview:
 *	---------

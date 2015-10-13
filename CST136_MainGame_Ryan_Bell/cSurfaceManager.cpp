@@ -80,8 +80,28 @@ void cSurfaceManager::SetWindow(SDL_Event sdlEvents)
 	cKeyboard theKeyboard;									       //The keyboard class obj
 	m_loadedImg = theKeyboard.InterpretInput(sdlEvents, m_gKeyPressSurfaces);
 
-	SDL_BlitSurface(m_loadedImg, NULL, m_gScreenSurface, NULL);		//Apply the image
+	SDL_Surface* optimizedSurface = nullptr;
+
+	optimizedSurface = SDL_ConvertSurface(m_loadedImg, m_gScreenSurface->format, NULL);
+	if (optimizedSurface == nullptr)
+	{
+		cout<<"Unable to optimize image SDL Error: \n"<< SDL_GetError();
+	}
+	
+	SDL_Rect stretchRect;
+	stretchRect.x = 0;
+	stretchRect.y = 0;
+	stretchRect.w = SCREEN_WIDTH;
+	stretchRect.h = SCREEN_HEIGHT;
+
+	SDL_BlitSurface(optimizedSurface, NULL, m_gScreenSurface, NULL); //Apply the image
+	SDL_BlitScaled(optimizedSurface, NULL, m_gScreenSurface, &stretchRect); //stretch the surface
 	SDL_UpdateWindowSurface(m_gWindow);							   //Update the surface
+	
+	m_loadedImg = optimizedSurface;
+
+	SDL_FreeSurface(optimizedSurface);
+	optimizedSurface = nullptr;
 }
 
 void cSurfaceManager::FreeSurfaces()
