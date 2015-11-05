@@ -1,7 +1,7 @@
-//Ryan Bell - cRender.h
+//!+++ Ryan Bell - cRender.h
 /***********************************************************************
 * Class: cRender
-*
+
 * Constructors:
 * -------------
 *	cRender();
@@ -57,14 +57,14 @@ memebers/ objs are successfully instatiatied
 #include "cBubble.h"
 #include "cArrow.h"
 
-static const int NUM_OF_ROWS_Y = 11;	//Number of rows of possible bubbles 
-static const int NUM_BUBBLES_EVEN = 8;	//Number of bubbles for every even row
-static const int NUM_BUBBLES_ODD = 7;	//Number of bubbles for every odd row
+static const int NUM_OF_ROWS_Y = 11;	// Number of rows of possible bubbles
+static const int NUM_BUBBLES_EVEN = 8;	// Number of bubbles for every even row
+static const int NUM_BUBBLES_ODD = 7;	// Number of bubbles for every odd row
 
 class cRender
 {
 	enum numTextrues { PLAYFIELD, BUBBLEIMG, DIRECTIONARROWS, totalTextures };
-	//enumerated list (location within the array of textures)
+	// enumerated list (location within the array of textures)
 public:
 	cRender();
 	~cRender();
@@ -73,16 +73,15 @@ public:
 
 private:
 	bool Initalize();
-	//Method only called in object's constructor on instantiation
+	// Method only called in object's constructor on instantiation
 	bool LoadMedia();
-	//Method only called in object's constructor on instantiation
+	// Method only called in object's constructor on instantiation
 
-	cArrow m_arrow; // Only Arrow-pointer to be displayed
+	cArrow m_arrow; //  Only Arrow-pointer to be displayed
 
-	SDL_Window* m_gWindow;				         //Main Game window
-	SDL_Renderer* m_gRenderer;	               //Main Game renderer	
-	SDL_Texture* m_gTextures[totalTextures] = {};           //All game textures 
+	SDL_Window* m_gWindow;				         // Main Game window
+	SDL_Renderer* m_gRenderer;	               // Main Game renderer
+	SDL_Texture* m_gTextures[totalTextures] = {};           // All game textures
 };
 
 #endif
-

@@ -1,4 +1,4 @@
-//Ryan Bell - Main.cpp
+//!+++  Ryan Bell - Main.cpp
 /***********************************************************************
 * Author:							Ryan Bell
 * Date Created:						10/25/15
@@ -43,16 +43,16 @@
 
 #define _CRTDBG_MAP_ALLOC
 #include "cGameEngine.h"
-#include <crtdbg.h> //For demonstration Purposes 
+#include <crtdbg.h>  // For demonstration Purposes
+#include <SDL_image.h>
 
 int main(int argc, char * argv[])
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//For demonstration Purposes 
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // For demonstration Purposes
 
-	cGameEngine MainGame;				//Instantiate MainGame object
-	MainGame.BeginGame();				//Startup game and load defaults
-	MainGame.RunGameLoop();				//Run main game loop
+	cGameEngine MainGame;				// Instantiate MainGame object
+	MainGame.BeginGame();				// Startup game and load defaults
+	MainGame.RunGameLoop();				// Run main game loop
 
 	return 0;
 }

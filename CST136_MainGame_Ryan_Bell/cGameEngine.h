@@ -1,4 +1,4 @@
-//Ryan Bell - cGameEngine.h
+//!+++  Ryan Bell - cGameEngine.h
 /***********************************************************************
 * Class: cGameEngine
 *
@@ -52,8 +52,7 @@ public:
 	void BeginGame();
 	void RunGameLoop();
 private:
-	cRender m_gameRender;						 //Main Game renderer object
-	cBubble ** m_bubbleArray[NUM_OF_ROWS_Y] = {}; //Main Bubble array
-
+	cRender m_gameRender;						 // Main Game renderer object
+	cBubble ** m_bubbleArray[NUM_OF_ROWS_Y] = {}; // Main Bubble array
 };
 #endif

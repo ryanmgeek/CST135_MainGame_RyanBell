@@ -1,4 +1,4 @@
-//Ryan Bell - cArrow.h
+//!+++ Ryan Bell - cArrow.h
 /***********************************************************************
 * Class: cArrow
 *
@@ -58,31 +58,24 @@
 
 #include <SDL.h>
 
-enum Direction { LEFT, RIGHT, DEFAULT }; //Direction to move arrow (increment
-										 // or decrement by 5 degrees or set
-										 //back to default)
+enum Direction { LEFT, RIGHT, DEFAULT }; // Direction to move arrow (increment
+										 //  or decrement by 5 degrees or set
+										 // back to default)
 class cArrow
 {
-
 public:
 	cArrow();
 	~cArrow();
 	cArrow(const cArrow& rightSide);
 	cArrow& operator = (const cArrow& rightSide);
 
-
 	void SetArrowRect(Direction);
 	const SDL_Rect& GetArrowSrcRect() const;
 	const SDL_Rect& GetArrowDestRect() const;
 
 private:
-	SDL_Rect m_arrowRect;//Source rectangle (where on texture sprite
-						 //will be loaded from)
-						 //These can't be base memeber intialized to a zero/null
-	SDL_Rect m_arrowDestRect; //Destination rectangle (Where on screen 
-							  //arrow-pointer needs to be loaded to)
-							  //These can't be base memeber 
-							  //intialized to a zero/null
+	SDL_Rect m_arrowRect; // Source rectangle (where on texture sprite // will be loaded from) // These can't be base memeber intialized to a zero/null
+	SDL_Rect m_arrowDestRect; // Destination rectangle (Where on screen // arrow-pointer needs to be loaded to) // These can't be base memeber // intialized to a zero/null
 };
-
+// this is a long comment
 #endif
