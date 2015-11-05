@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cArrow.cpp" />
+    <ClCompile Include="cBubble.cpp" />
+    <ClCompile Include="cGameEngine.cpp" />
+    <ClCompile Include="cPhysicsEngine.cpp" />
+    <ClCompile Include="cRender.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cArrow.h" />
+    <ClInclude Include="cBubble.h" />
+    <ClInclude Include="cGameEngine.h" />
+    <ClInclude Include="cPhysicsEngine.h" />
+    <ClInclude Include="cRender.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A725CB83-79AC-4C4C-B2B5-5C2B111C2A77}</ProjectGuid>
     <RootNamespace>CST136_MainGame_Ryan_Bell</RootNamespace>
@@ -122,17 +137,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="cKeyboard.cpp" />
-    <ClCompile Include="cMainGame.cpp" />
-    <ClCompile Include="cSurfaceManager.cpp" />
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cKeyboard.h" />
-    <ClInclude Include="cMainGame.h" />
-    <ClInclude Include="cSurfaceManager.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -15,27 +15,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cMainGame.cpp">
+    <ClCompile Include="cArrow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cKeyboard.cpp">
+    <ClCompile Include="cBubble.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cSurfaceManager.cpp">
+    <ClCompile Include="cGameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cPhysicsEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cMainGame.h">
+    <ClInclude Include="cArrow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cKeyboard.h">
+    <ClInclude Include="cBubble.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cSurfaceManager.h">
+    <ClInclude Include="cGameEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cPhysicsEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
