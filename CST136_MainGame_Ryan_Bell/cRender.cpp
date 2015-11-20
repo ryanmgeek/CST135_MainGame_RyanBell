@@ -493,7 +493,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles(LEFT_HAND, m_bubbleArray[y][x - 1]);
 			m_bubbleArray[y][x - 1]->SetPrevious(m_bubbleArray[y][x]);
-			DiscernNearbyBubbles(y - 1, x);
+			DiscernNearbyBubbles(y, x - 1);
 		}
 	}
 	if (checkUpperLeft == true)
@@ -502,7 +502,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles(ULEFT, m_bubbleArray[y - 1][x - 1]);
 			m_bubbleArray[y - 1][x - 1]->SetPrevious(m_bubbleArray[y][x]);
-			DiscernNearbyBubbles(y - 1, x -1);
+			DiscernNearbyBubbles(y - 1, x - 1);
 		}
 		else if (oddOrEven == BUBBLE_ARRAY_ODD_X && m_bubbleArray[y - 1][x] != nullptr && thisType == m_bubbleArray[y - 1][x]->GetBubbleType() && m_bubbleArray[y - 1][x]->GetVisted() != true)
 		{
