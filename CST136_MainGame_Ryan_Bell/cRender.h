@@ -110,7 +110,7 @@ private:
 
 	bool m_userFiredABubble;
 	int m_frameCount;
-	stack <cBubble> m_vistedBubbbles;
+	stack <cBubble *> m_vistedBubbbles;
 };
 
 #endif

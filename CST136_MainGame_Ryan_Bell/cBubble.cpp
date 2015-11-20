@@ -245,7 +245,12 @@ const bool & cBubble::GetVisted()
 	return m_visted;
 }
 
-BUBBLE_TYPE cBubble::GetBubbleType()
+const int & cBubble::GetTouchCount()
+{
+	return m_touchingBubbleCount;
+}
+
+const BUBBLE_TYPE & cBubble::GetBubbleType()
 {
 	return m_bubbleType;
 }
@@ -257,15 +262,9 @@ void cBubble::SetVisted(const bool & updatedVisted)
 
 void cBubble::SetPrevious(cBubble * previousBubble)
 {
-	if (previousBubble != nullptr)
-	{
-		m_previousBubble = previousBubble;
 
-	}
-	else
-	{
-		std::cout << "I CANNOT SET THE PREVIOUS BUBBLE TO PTR\n" << std::endl;
-	}
+	m_previousBubble = previousBubble;
+
 }
 
 void cBubble::SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, cBubble* nearbyBubble)

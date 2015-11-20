@@ -118,6 +118,9 @@ void cGameEngine::RunGame()
 				case SDLK_ESCAPE:
 					quit = true;
 					break;
+				case SDLK_q:
+					m_gameRender->CalculateTouchingCounts();
+					break;
 				}
 			}
 
@@ -141,7 +144,7 @@ void cGameEngine::HackGame()
 	int x = rand() % BUBBLE_ARRAY_EVEN_X; // Genrate number from 0-8
 	delete m_gameRender->m_bubbleArray[0][x];	// Delete current bubble
 												// generate a random bubble 
-	m_gameRender->m_bubbleArray[0][x] = static_cast<cBubble*> (new cRegularBubble(m_gameRender->m_gRenderer));
+	m_gameRender->m_bubbleArray[0][x] = static_cast<cBubble*> (new cRegularBubble(m_gameRender->m_gRenderer, RED));
 	m_gameRender->m_bubbleArray[0][x]->SetBubbleDestinationRectangle(BUBBLE_PXL_OFFSET_EVEN_X + (x * SINGLE_BUBBLE_SIZE), BUBBLE_PXL_BOARDER_SPACING); // Set destination of new bubble
 }
 

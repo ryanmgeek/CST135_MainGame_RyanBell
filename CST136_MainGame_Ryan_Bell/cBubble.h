@@ -148,14 +148,17 @@ public:
 	cBubble(const cBubble & rightSide);
 
 	virtual void SpecialEffect(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
-	virtual void SetTouching(const int & newTouchCount);
 	virtual void Pop(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
 	void RenderBubble(SDL_Renderer * m_gRenderer);
-	void SetBubbleDestinationRectangle(int const &xCordinate, int const &yCordinate);
 	void CalcualteBubbleVector(const int& arrowDegrees);
-	void SetArrayLocations(int const &y, int const &x);
+
+	const BUBBLE_TYPE & GetBubbleType();
 	const bool & GetVisted();
-	BUBBLE_TYPE GetBubbleType();
+	const int & GetTouchCount();
+
+	void SetBubbleDestinationRectangle(int const &xCordinate, int const &yCordinate);
+	void SetArrayLocations(int const &y, int const &x);
+	virtual void SetTouching(const int & newTouchCount);
 	void SetVisted(const bool& updatedVisted);
 	void SetPrevious(cBubble * previousBubble);
 	void SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, cBubble* nearbyBubble);
