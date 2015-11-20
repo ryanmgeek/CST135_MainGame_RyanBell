@@ -1,4 +1,5 @@
-//!+++ Ryan Bell - cRender.h
+// Ryan Bell - cRender.h
+
 /***********************************************************************
 * Class: cRender
 
@@ -21,67 +22,92 @@
 *
 * Mutators:
 * ---------
-*	cArrow& GetArrowObject();
+*	cBubble *** GetBubbleArray();
 *	********************************************************************
-*	 Purpose:	Get current Arrow object
+*	 Purpose:	Get current Bubble Array
 *	 Entry:		Method is called by an invoking class
-*	 Exit:		Arrow object is returned
+*	 Exit:		bubbleArray is returned
 *	********************************************************************
-*
+*	SDL_Renderer * GetRenderer();
+*	********************************************************************
+*	 Purpose:	Get Renderer
+*	 Entry:		Method is called by an invoking class
+*	 Exit:		Game Renderer is returned
+*	********************************************************************
+*	void SetFiredBuble(cBubble *);
+*	********************************************************************
+*	 Purpose:	Set current fired bubble object
+*	 Entry:		Method is called by an invoking class
+*	 Exit:		Fired bubble object is updated to match passed bubble
+*	********************************************************************
+*	void SetArrowPosition(const Direction & moveDirection);
+*	********************************************************************
+*	 Purpose:	Set current Arrow object tilt
+*	 Entry:		Method is called by an invoking class
+*	 Exit:		Arrow object is incramented in passed move direction
+*	********************************************************************
 * Methods
 * ---------------
-* void DisplayCurrentPlayFeild(cBubble ** bubbleArray[]);
-*	********************************************************************
-*	 Purpose:	Display current play field to screen
-*	 Entry:		Method is called by an invoking class
-*	 Exit:		Current play field is displayed to screen
-*	********************************************************************
-*	bool Initalize();
-*	********************************************************************
-*	 Purpose:	Initalize data memebers and start SDL libraries
-*	 Entry:		Is called by constuctor on instation
-*	 Exit:		boolean is returned for success and data
-memebers/ objs are successfully instatiatied
-*	********************************************************************
 *	bool LoadMedia();
 *	********************************************************************
 *	 Purpose:	Load Media images into textures
 *	 Entry:		Method is called by constuctor
 *	 Exit:		Texture array is filled with loaded images, boolean
 *				of success is returned
+***********************************************************************
+*	bool Initalize();
+*	********************************************************************
+*	 Purpose:	Initalize data memebers and start SDL libraries
+*	 Entry:		Is called by constuctor on instation
+*	 Exit:		boolean is returned for success and data
+*				memebers/ objs are successfully instatiatied
 ***********************************************************************/
 
 #ifndef CRENDER_H
 #define CRENDER_H
-
-#include "cBubble.h"
 #include "cArrow.h"
+#include "cBubble.h"
 
-static const int NUM_OF_ROWS_Y = 11;	// Number of rows of possible bubbles
-static const int NUM_BUBBLES_EVEN = 8;	// Number of bubbles for every even row
-static const int NUM_BUBBLES_ODD = 7;	// Number of bubbles for every odd row
+
+
+char * const GAME_NAME = "Techno Bubble Puzzle";	// Name of the game
+char* const BACKGROUND_IMAGE_PATH [] = {"Backsplash.png", "Background.png"};
+										//Image paths to backgrounds 
+enum IMAGE_PATHS {BACKSPASH, BACKGROUND, TOTAL_BACKGROUNDS};
+										//Index of array of background textures  
+
+
+const int MAX_ARROW_DEGREE = 80;				//Max Incline of arrow possible
 
 class cRender
 {
-	enum numTextrues { PLAYFIELD, BUBBLEIMG, DIRECTIONARROWS, totalTextures };
-	// enumerated list (location within the array of textures)
+	friend class cGameEngine;
 public:
 	cRender();
 	~cRender();
-	cArrow& GetArrowObject();
-	void DisplayCurrentPlayFeild(cBubble ** bubbleArray[]);
+
+	void DisplayCurrentPlayField();
+	cBubble *** GetBubbleArray();
+	SDL_Renderer * GetRenderer();
+	void SetFiredBuble(cBubble *);
+	void SetArrowPosition(const Direction & moveDirection);
+
 
 private:
 	bool Initalize();
-	// Method only called in object's constructor on instantiation
 	bool LoadMedia();
-	// Method only called in object's constructor on instantiation
 
-	cArrow m_arrow; //  Only Arrow-pointer to be displayed
+	cBubble ** m_bubbleArray[BUBBLE_ARRAY_ROWS_Y];		//MAIN buble array
+	cArrow * m_shooterArrow;						//Bubble shooter graphic
+	cBubble * m_firedBubble;					//Bubble being fired 
 
-	SDL_Window* m_gWindow;				         // Main Game window
-	SDL_Renderer* m_gRenderer;	               // Main Game renderer
-	SDL_Texture* m_gTextures[totalTextures] = {};           // All game textures
+	SDL_Window * m_gWindow;						// Main Game window
+	SDL_Renderer * m_gRenderer;				// Renderer linked to main window
+	SDL_Texture * m_gTextures[TOTAL_BACKGROUNDS];	//background textures
+
+	bool m_userFiredABubble;
+	int m_frameCount;
 };
 
 #endif
+

@@ -1,93 +1,81 @@
-// Ryan Bell - cArrow.cpp
+//Ryan Bell
 
 #include "cArrow.h"
-const int ARROW_IMG_WIDTH = 1000; // Arrow-pointer image width (in pixels)
-const int ARROW_IMG_HEIGTH = 173; // Arrow-pointer image height (in pixels)
+#include <iostream>	// ERROR reporting
 
-enum arrowPosition {				// Enumerated list of possible angles the arrow position can be at
-	LEFTMOST, LEFT35, LEFT30, LEFT25,
-	LEFT20, LEFT15, LEFT10, LEFT5,
-	MIDDLE,
-	RIGHT5, RIGHT10, RIGHT15, RIGHT20,
-	RIGHT25, RIGHT30, RIGHT35, RIGHTMOST,
-	TOTALARROWPOSITIONS
-};
-
-const int SINGLE_ARROW_WIDTH = ARROW_IMG_WIDTH / TOTALARROWPOSITIONS;
-// Single width of a arrow (as determined by the entire pic/#of arrows)
-const int SINGLE_ARROW_HEIGTH = ARROW_IMG_HEIGTH / 1;
-// Devision by 1 as a place holder (because there is only one row right now)
-
-cArrow::cArrow()
+cArrow::cArrow(SDL_Renderer * m_gRenderer) : m_arrowTexture(nullptr), 
+										 	 m_destinationRectangle{},
+											 m_degreesRotation(0),
+											 m_rotationPoint{0,0}
 {
-	const int ARROW_POISTION_X = 800;   // constant x-position of where the
-										// arrow-pointer is going to be displayed
-										// on screen (in pixels)
-	const int ARROW_POISITON_Y = 650;	// constant y-position of where the
-										// arrow-pointer is going to be
-										// displayed on screen (in pixels)
 
-	m_arrowRect.x = SINGLE_ARROW_WIDTH * MIDDLE; // Default Arrow pointer to
-												 // middle of Img (0 Degree tilt)
-	m_arrowRect.y = 0;
-	m_arrowRect.w = SINGLE_ARROW_WIDTH;
-	m_arrowRect.h = SINGLE_ARROW_HEIGTH;
-
-	m_arrowDestRect.x = ARROW_POISTION_X;
-	m_arrowDestRect.y = ARROW_POISITON_Y;
-	m_arrowDestRect.w = SINGLE_ARROW_WIDTH;
-	m_arrowDestRect.h = SINGLE_ARROW_HEIGTH;
-}
-
-cArrow::~cArrow()
-{
-}
-
-cArrow::cArrow(const cArrow & rightSide)
-{
-	m_arrowRect = rightSide.m_arrowRect;
-	m_arrowDestRect = rightSide.m_arrowDestRect;
-}
-
-cArrow & cArrow::operator=(const cArrow & rightSide)
-{
-	if (this != &rightSide) // Check if A=A
+	SDL_Surface * tempSurface = IMG_Load(ARROW_IMG_PATH); //Load arrow Img
+	
+	m_destinationRectangle.h = tempSurface->h; //get heigth from loaded surface
+	m_destinationRectangle.w = tempSurface->w;
+	m_arrowTexture = SDL_CreateTextureFromSurface(m_gRenderer, tempSurface);
+	
+	if (m_arrowTexture == nullptr) //Check surface was created correctly
 	{
-		m_arrowRect = rightSide.m_arrowRect;
-		m_arrowDestRect = rightSide.m_arrowDestRect;
+		std::cout << "ERROR: The arrow surface could not be loaded " 
+				  << SDL_GetError() 
+				  << std::endl;
+	}
+
+	SDL_FreeSurface(tempSurface); // Get rid of temporary surfcae
+	tempSurface = nullptr;
+
+	//Set defulat Destination rectangle values 
+	m_destinationRectangle.x = (SCREEN_WIDTH - m_destinationRectangle.w) / 2;
+	m_destinationRectangle.y = SCREEN_HEIGHT - m_destinationRectangle.h;
+
+	m_rotationPoint.x = m_destinationRectangle.w / 2;
+	m_rotationPoint.y = PIXEL_OFFSET_ROTATION;
+}
+
+cArrow::cArrow() : m_arrowTexture(nullptr), m_destinationRectangle{}
+{
+	std::cout << "An error occurred a arrow object has "
+		      <<"been instantiated without being passed the renderer" 
+		      << std::endl;
+}
+
+cArrow & cArrow::operator=(const cArrow & rightSide) //Assignment overload
+{
+	if (this != &rightSide)
+	{
+		SDL_DestroyTexture(m_arrowTexture);
+		m_arrowTexture = rightSide.m_arrowTexture;
+		m_degreesRotation = rightSide.m_degreesRotation;
+		m_destinationRectangle = rightSide.m_destinationRectangle;
+		m_rotationPoint = rightSide.m_rotationPoint;
 	}
 	return *this;
 }
 
-void cArrow::SetArrowRect(Direction moveDirection)
+cArrow::cArrow(const cArrow & rightSide) //Copy constructor
 {
-	// Check to see what direction the user wants to move the arrow pointer and
-	// make sure its not already as far as it can go to the left
-	if (moveDirection == LEFT && m_arrowRect.x != SINGLE_ARROW_WIDTH* LEFTMOST)
-	{
-		m_arrowRect.x = m_arrowRect.x - SINGLE_ARROW_WIDTH;
-	}
-	// Check to see what direction the user wants to move the arrow pointer and
-	// make sure its not already as far as it can go to the right
-	else if (moveDirection == RIGHT
-		&& m_arrowRect.x != SINGLE_ARROW_WIDTH* RIGHTMOST)
-	{
-		m_arrowRect.x = m_arrowRect.x + SINGLE_ARROW_WIDTH;
-	}
-	// If function is called with any other movement passed,
-	// default arrow pointer back to middle (0 degree tilt)
-	else if (moveDirection == DEFAULT)
-	{
-		m_arrowRect.x = SINGLE_ARROW_WIDTH * MIDDLE;
-	}
+	SDL_DestroyTexture(m_arrowTexture);
+	m_arrowTexture = rightSide.m_arrowTexture;
+	m_degreesRotation = rightSide.m_degreesRotation;
+	m_destinationRectangle = rightSide.m_destinationRectangle;
+	m_rotationPoint = rightSide.m_rotationPoint;
 }
 
-const SDL_Rect& cArrow::GetArrowSrcRect() const
+cArrow::~cArrow()
 {
-	return m_arrowRect;
+	SDL_DestroyTexture(m_arrowTexture); //Get rid of texture
+	m_arrowTexture = nullptr;			//Return pointers to null
 }
 
-const SDL_Rect & cArrow::GetArrowDestRect() const
+void cArrow::RenderArrow(SDL_Renderer * m_gRenderer)
 {
-	return m_arrowDestRect;
+	SDL_RenderCopyEx(m_gRenderer,
+					 m_arrowTexture, 
+					 nullptr, 
+					 &m_destinationRectangle,
+					 m_degreesRotation, 
+					 &m_rotationPoint,
+					 SDL_FLIP_NONE);
 }
+

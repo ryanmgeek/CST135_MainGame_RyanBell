@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Bubble Types">
+      <UniqueIdentifier>{5fb977bc-0646-4665-bebd-23b8f0d2f306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bubble Types">
+      <UniqueIdentifier>{442f3f1d-a27a-446d-86d6-12220910bccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Photos">
+      <UniqueIdentifier>{733b45c4-ec6f-4768-b0a9-f08b2032375f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BubbleRendering">
+      <UniqueIdentifier>{a25bf968-0cde-42b0-bfa0-bddbfc73b1c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BubbleRendering">
+      <UniqueIdentifier>{3b04ec36-e409-443a-8ab6-188a851ed800}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cRegularBubble.cpp">
+      <Filter>Source Files\Bubble Types</Filter>
+    </ClCompile>
+    <ClCompile Include="cStaticBubble.cpp">
+      <Filter>Source Files\Bubble Types</Filter>
+    </ClCompile>
+    <ClCompile Include="cMatchColorBubble.cpp">
+      <Filter>Source Files\Bubble Types</Filter>
+    </ClCompile>
+    <ClCompile Include="cFirePopBubble.cpp">
+      <Filter>Source Files\Bubble Types</Filter>
+    </ClCompile>
+    <ClCompile Include="cPopAllSameColorBubble.cpp">
+      <Filter>Source Files\Bubble Types</Filter>
+    </ClCompile>
+    <ClCompile Include="cRandomColorBubble.cpp">
+      <Filter>Source Files\Bubble Types</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cArrow.cpp">
+      <Filter>Source Files\BubbleRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="cBubble.cpp">
+      <Filter>Source Files\BubbleRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="cBubblePhysics.cpp">
+      <Filter>Source Files\BubbleRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="cRender.cpp">
+      <Filter>Source Files\BubbleRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="vBubbleConstruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cRegularBubble.h">
+      <Filter>Header Files\Bubble Types</Filter>
+    </ClInclude>
+    <ClInclude Include="cStaticBubble.h">
+      <Filter>Header Files\Bubble Types</Filter>
+    </ClInclude>
+    <ClInclude Include="cMatchColorBubble.h">
+      <Filter>Header Files\Bubble Types</Filter>
+    </ClInclude>
+    <ClInclude Include="cFirePopBubble.h">
+      <Filter>Header Files\Bubble Types</Filter>
+    </ClInclude>
+    <ClInclude Include="cPopAllSameColorBubble.h">
+      <Filter>Header Files\Bubble Types</Filter>
+    </ClInclude>
+    <ClInclude Include="cRandomColorBubble.h">
+      <Filter>Header Files\Bubble Types</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBubble.h">
+      <Filter>Header Files\BubbleRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="cBubblePhysics.h">
+      <Filter>Header Files\BubbleRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="cRender.h">
+      <Filter>Header Files\BubbleRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="cArrow.h">
+      <Filter>Header Files\BubbleRendering</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Background.png">
+      <Filter>Source Files\Photos</Filter>
+    </Image>
+    <Image Include="Backsplash.png">
+      <Filter>Source Files\Photos</Filter>
+    </Image>
+    <Image Include="Bubbles.png">
+      <Filter>Source Files\Photos</Filter>
+    </Image>
+    <Image Include="BubbleShooterArrow.png">
+      <Filter>Source Files\Photos</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

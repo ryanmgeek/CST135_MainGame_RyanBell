@@ -21,17 +21,30 @@
   <ItemGroup>
     <ClCompile Include="cArrow.cpp" />
     <ClCompile Include="cBubble.cpp" />
+    <ClCompile Include="cFirePopBubble.cpp" />
     <ClCompile Include="cGameEngine.cpp" />
-    <ClCompile Include="cPhysicsEngine.cpp" />
+    <ClCompile Include="cBubblePhysics.cpp" />
+    <ClCompile Include="cMatchColorBubble.cpp" />
+    <ClCompile Include="cPopAllSameColorBubble.cpp" />
+    <ClCompile Include="cRandomColorBubble.cpp" />
+    <ClCompile Include="cRegularBubble.cpp" />
     <ClCompile Include="cRender.cpp" />
+    <ClCompile Include="cStaticBubble.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cArrow.h" />
     <ClInclude Include="cBubble.h" />
+    <ClInclude Include="cFirePopBubble.h" />
     <ClInclude Include="cGameEngine.h" />
-    <ClInclude Include="cPhysicsEngine.h" />
+    <ClInclude Include="cBubblePhysics.h" />
+    <ClInclude Include="cMatchColorBubble.h" />
+    <ClInclude Include="cPopAllSameColorBubble.h" />
+    <ClInclude Include="cRandomColorBubble.h" />
+    <ClInclude Include="cRegularBubble.h" />
     <ClInclude Include="cRender.h" />
+    <ClInclude Include="cStaticBubble.h" />
+    <ClInclude Include="vBubbleConstruct.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A725CB83-79AC-4C4C-B2B5-5C2B111C2A77}</ProjectGuid>

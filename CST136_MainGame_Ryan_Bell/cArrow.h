@@ -1,4 +1,4 @@
-//!+++ Ryan Bell - cArrow.h
+// Ryan Bell - cArrow.h
 /***********************************************************************
 * Class: cArrow
 *
@@ -23,26 +23,15 @@
 *	 Exit:		A deeply copy cArrow object is returned from the
 *				passed cArrow
 *	********************************************************************
+*	cArrow(SDL_Renderer * m_gRenderer);
+*	********************************************************************
+*	 Purpose:	Construct arrow object with a renderer
+*	 Entry:		object is instatied by  cRenderer class 
+*	 Exit:		Constructs a cArrow object with refrence to the passed renderer
+*	********************************************************************
 * Mutators:
 * ---------
-*	void SetArrowRect(Direction);
-*	********************************************************************
-*	 Purpose:	Increment cArrow's object in a direction
-*	 Entry:		Method is called by invoking class for a cArrow object
-*	 Exit:		cArrow's direction(tilt) is increased either left or right
-*	********************************************************************
-*	const SDL_Rect& GetArrowSrcRect() const;
-*	********************************************************************
-*	 Purpose:	Get the source rectangle of where to draw from
-*	 Entry:		Method is invoked by a calling class for a cArrow object
-*	 Exit:		Method returns a const of the cArrow source Rectangle
-*	********************************************************************
-*	const SDL_Rect& GetArrowDestRect() const;
-*	********************************************************************
-*	 Purpose:	Get the destination rectangle of where to draw to
-*	 Entry:		Method is invoked by a calling class for a cArrow
-*	 Exit:		Method returns a const of the cArrow's destination rectangle
-*	********************************************************************
+*	N/A
 * Methods
 * ---------------
 * 	cArrow& operator = (const cArrow& rightSide);
@@ -51,31 +40,48 @@
 *	 Entry:		Equals operator is used between two arrow objects
 *	 Exit:		Destination's cArrow members are set equal to another
 *				cArrow object
+*	********************************************************************
+* 	void RenderArrow(SDL_Renderer * m_gRenderer);
+*	********************************************************************
+*	 Purpose:	Render cArrow object to renderer buffer
+*	 Entry:		Is called by the cRenderer class for a cArrrow object
+*	 Exit:		The current cArrow object is loaded to the renderer with 
+*				a point of rotation and the current degree of roation taken 
+*				taken into account,.
 ***********************************************************************/
-
 #ifndef CARROW_H
 #define CARROW_H
-
 #include <SDL.h>
+#include <SDL_image.h>
+#include "cBubblePhysics.h"
 
-enum Direction { LEFT, RIGHT, DEFAULT }; // Direction to move arrow (increment
-										 //  or decrement by 5 degrees or set
-										 // back to default)
+enum Direction { LEFT, RIGHT, DEFAULT };
+
+
+const int PIXEL_OFFSET_ROTATION = 144; 
+					//Roation along y axis that needs to be offset
+
+char * const ARROW_IMG_PATH = "BubbleShooterArrow.png";
+	//Path of arrow img
+
 class cArrow
 {
+	friend class cRender;
 public:
-	cArrow();
 	~cArrow();
-	cArrow(const cArrow& rightSide);
-	cArrow& operator = (const cArrow& rightSide);
+	cArrow();
+	cArrow & operator =(const cArrow & rightSide);
+	cArrow(const cArrow & rightSide);
+	cArrow(SDL_Renderer * m_gRenderer);
+	void RenderArrow(SDL_Renderer * m_gRenderer);
+	
 
-	void SetArrowRect(Direction);
-	const SDL_Rect& GetArrowSrcRect() const;
-	const SDL_Rect& GetArrowDestRect() const;
 
 private:
-	SDL_Rect m_arrowRect; // Source rectangle (where on texture sprite // will be loaded from) // These can't be base memeber intialized to a zero/null
-	SDL_Rect m_arrowDestRect; // Destination rectangle (Where on screen // arrow-pointer needs to be loaded to) // These can't be base memeber // intialized to a zero/null
+	SDL_Texture * m_arrowTexture;	//Texture of the arrow-pointer
+	SDL_Rect m_destinationRectangle;//Rectangle of where to display to
+	SDL_Point m_rotationPoint;		//Point torotatoe arrow about
+	int m_degreesRotation;		//Degrees of roation from vertial 
+	
 };
-// this is a long comment
 #endif

@@ -1,181 +1,307 @@
-//!+++ Ryan Bell - cRender.cpp
+//Ryan Bell
 
 #include "cRender.h"
 #include <iostream>
-#include <time.h> // For generating a random seed
+#include <time.h>	//Used for sRand
+#include <SDL_image.h>
 
-using std::cout;
+using std::cout;	// Error checking purposes
 using std::endl;
 
-cRender::cRender() : m_gWindow(nullptr), m_gRenderer(nullptr)
+cRender::cRender() : m_shooterArrow(nullptr), 
+					 m_gWindow(nullptr), 
+					 m_gRenderer(nullptr), 
+					 m_gTextures{}, 
+					 m_bubbleArray{},
+					 m_firedBubble(nullptr),
+					 m_frameCount(0),
+					 m_userFiredABubble(false)// Base memeber initalize to values
 {
-	if (Initalize() == false || LoadMedia() == false)
-		// Intalize textures and load media
+	if (Initalize() == false) // Call initalize function
 	{
-		cout << endl << "Failed to load renderer object" << endl;
+		cout << "An error occurred in initializing the renderer" << endl;
+	}
+	if (LoadMedia() == false)	// Call load media Function
+	{
+		cout << "An error occurred in trying to load the background Media" 
+			 << endl;
+	}
+
+	int oddOrEven = 0; // Integer telling weather row is odd or even
+	for (int rowNumber = 0; rowNumber < BUBBLE_ARRAY_ROWS_Y; rowNumber++)		
+		// Dynamically allocate space for every possible location of a bubble
+	{
+		if (rowNumber % 2 == 0)					// Check if Row is odd or even
+		{
+			m_bubbleArray[rowNumber] = new cBubble * [BUBBLE_ARRAY_EVEN_X];
+			oddOrEven = BUBBLE_ARRAY_EVEN_X;
+		}
+		else
+		{
+			m_bubbleArray[rowNumber] = new cBubble * [BUBBLE_ARRAY_ODD_X];
+			oddOrEven = BUBBLE_ARRAY_ODD_X;
+		}
+
+		for (int x = 0; x < oddOrEven; x++)
+		{
+			m_bubbleArray[rowNumber][x] = nullptr;// Initalize pointers to null
+		}
 	}
 }
 
 cRender::~cRender()
 {
-	for (int i = 0; i < totalTextures; i++) // Destroy any allocated textures
+	int rowLength;	 //  Integer to store if row is even or odd
+	for (int y = 0; y < BUBBLE_ARRAY_ROWS_Y; y++)
+	{
+		if (y % 2 == 0)		//  Check if row is even or odd
+		{
+			rowLength = BUBBLE_ARRAY_EVEN_X;
+		}
+		else
+		{
+			rowLength = BUBBLE_ARRAY_ODD_X;
+		}
+
+		for (int xIndex = 0; xIndex < rowLength; xIndex++)						
+				//  For length of current row deallocate any allocated cBubbles
+		{
+			std::cout << "DEALLOCATING BUBBLE MEMORY [" 
+					  << y << "][" << xIndex << "]\n";
+						//  For demonstration purposes
+			delete m_bubbleArray[y][xIndex];
+			m_bubbleArray[y][xIndex] = nullptr;
+		}
+
+		delete[] m_bubbleArray[y];
+		m_bubbleArray[y] = nullptr;
+	}
+
+	delete m_shooterArrow;	// Delte coposite arrow
+	m_shooterArrow = nullptr; //Return pointers to null
+
+	for (int i = 0; i < TOTAL_BACKGROUNDS; i++) // Delete all backgrounds
 	{
 		SDL_DestroyTexture(m_gTextures[i]);
 		m_gTextures[i] = nullptr;
 	}
-
-	SDL_DestroyRenderer(m_gRenderer);	// Destroy Renderer
-	SDL_DestroyWindow(m_gWindow);		// Destroy window
-	m_gWindow = nullptr;				// Set pointers back to null
+		
+	SDL_DestroyRenderer(m_gRenderer);		// Destroy Renderer
+	SDL_DestroyWindow(m_gWindow);			// Destroy Window
+	m_gWindow = nullptr;					// Set pointers to null
 	m_gRenderer = nullptr;
 
-	SDL_Quit();							// Quit SDL subsystems
-}
+	delete m_firedBubble;
+	m_firedBubble = nullptr;
 
-cArrow& cRender::GetArrowObject()
-{
-	return m_arrow;				// Return a reference to m_arrow
+	IMG_Quit();	// Quit SDL subsystems
+	SDL_Quit();
 }
 
 bool cRender::Initalize()
 {
-	char* const GAME_NAME = "Techno Bubble Puzzle";	// Name of the game
-	const int SCREEN_WIDTH = 1658; // Screen Size -width (in pixels)
-	const int SCREEN_HEIGHT = 847; // Screen Size - height (in pixels)
-
 	srand(time(NULL)); // On initialization generate a random seed
 
-	bool Intsuccess = true;
-	// Success flag if everything is initalized correctly
-	// Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	bool Intsuccess = true; 
+		 // Success flag if everything is initialized correctly  Initialize SDL
+
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) // Intalize SDL_subsytems
 	{
-		cout << "SDL could not initialize! SDL Error: "
-			<< SDL_GetError() << endl;
+		cout << "SDL could not initialize! SDL Error: " 
+			 << SDL_GetError() 
+			 << endl;
 		Intsuccess = false;
 	}
 	else
 	{
-		// Test for texture filtering is set to linear
-		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+		int imgFlags = IMG_INIT_PNG;
+
+		if (!(IMG_Init(imgFlags) & imgFlags))
 		{
-			cout << "Warning: Linear texture filtering not enabled!";
-		}
-
-		// Create Game window
-		m_gWindow = SDL_CreateWindow(GAME_NAME,
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			SCREEN_WIDTH, SCREEN_HEIGHT,
-			SDL_WINDOW_SHOWN);
-
-		if (m_gWindow == nullptr)
-		{
-			cout << "Window could not be created! SDL Error: "
-				<< SDL_GetError() << endl;
-
+			cout << "SDL_image could not initialize! SDL_image Error: "
+					<<IMG_GetError()
+					<<endl;
 			Intsuccess = false;
 		}
 		else
 		{
-			// Create renderer for window
-			m_gRenderer = SDL_CreateRenderer(m_gWindow, -1,
-				SDL_RENDERER_ACCELERATED);
-
-			if (m_gRenderer == nullptr)
+			// Test for texture filtering is set to linear
+			if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
 			{
-				cout << "Renderer could not be created! SDL Error: "
-					<< SDL_GetError() << endl;
+				cout << "Warning: Linear texture filtering not enabled!";
+			}
+
+			// Create Game window
+			m_gWindow = SDL_CreateWindow(GAME_NAME, 
+										SDL_WINDOWPOS_UNDEFINED, 
+										SDL_WINDOWPOS_UNDEFINED,
+										SCREEN_WIDTH, 
+										SCREEN_HEIGHT, 
+										SDL_WINDOW_SHOWN);
+			if (m_gWindow == nullptr)
+			{
+				cout << "Window could not be created! SDL Error: " 
+					 << SDL_GetError() 
+					 << endl;
 				Intsuccess = false;
+			}
+			else
+			{
+				// Create renderer for window
+				m_gRenderer = SDL_CreateRenderer(m_gWindow, -1,
+												SDL_RENDERER_ACCELERATED |
+													SDL_RENDERER_PRESENTVSYNC);
+
+				if (m_gRenderer == nullptr)
+				{
+					cout << "Renderer could not be created! SDL Error: "
+						 << SDL_GetError() 
+						 << endl;
+					Intsuccess = false;
+				}
 			}
 		}
 	}
+	// Set Render color
+	SDL_SetRenderDrawColor(m_gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	return Intsuccess;
-	// Return success flag (will be false if an error occurred)
 }
 
 bool cRender::LoadMedia()
 {
-	char* const texturePath[] = { "BackSplashYellow.bmp", "Bubbles.bmp", "DirectionArrow.bmp" }; // BMP image paths
+	m_shooterArrow = new cArrow(m_gRenderer);
+	bool mediaSuccess = true;
+	// Success flag set for loading media into textures
 
-	bool mediaSuccess = true;	// Success flag set for loading media into textures
+	SDL_Surface* tempSurface = nullptr;											
+	// Temporary surface to be used before converted to a texture
 
-	SDL_Surface* tempSurface = nullptr;	// Temporary surface to be used before converted to a texture
-
-	for (int i = 0; i < totalTextures && mediaSuccess == true; i++)		// For each image that needs to be loaded
+	for (int i = 0; i < TOTAL_BACKGROUNDS && mediaSuccess == true; i++)			
+		// For each image that needs to be loaded
 	{
-		tempSurface = SDL_LoadBMP(texturePath[i]);					// Load BMP image onto a surface
+		tempSurface = IMG_Load(BACKGROUND_IMAGE_PATH[i]);						
+		// Load BMP image onto a surface
+
 		if (tempSurface == nullptr)
 		{
-			cout << "Unable to load image" << texturePath[i] << "! SDL_image Error: " << SDL_GetError() << endl;
+			cout << "Unable to load image" 
+				<< BACKGROUND_IMAGE_PATH[i] 
+				<< "! SDL_image Error: "
+				<< SDL_GetError()
+				<< endl;
 
 			mediaSuccess = false;
 		}
 		else
 		{
 			m_gTextures[i] = SDL_CreateTextureFromSurface(m_gRenderer,
-				tempSurface);
+																  tempSurface);
+			if (m_gTextures[i] == nullptr)										
 			// Create texture from surface
-			if (m_gTextures[i] == nullptr)
 			{
-				cout << "Unable to create texture from"
-					<< texturePath[i]
-					<< "! SDL Error: "
-					<< SDL_GetError() << endl;
+				cout << "Unable to create texture from" 
+					<< BACKGROUND_IMAGE_PATH[i] 
+					<< "! SDL Error: " 
+					<< SDL_GetError() 
+					<< endl;
 
 				mediaSuccess = false;
 			}
 		}
 	}
 
-	SDL_FreeSurface(tempSurface);	// Free temporary surface
-									// (all media are now textures)
+	SDL_FreeSurface(tempSurface);												
+		// Free temporary surface (all media are now textures)
 
-	return mediaSuccess;	// Return success flag
-							// (will be false if a img did not load correctly)
+	return mediaSuccess;
 }
 
-void cRender::DisplayCurrentPlayFeild(cBubble ** bubbleArray[])
+void cRender::DisplayCurrentPlayField()
 {
-	SDL_RenderClear(m_gRenderer);
-	// Clear current rendering surface (cleared to all white)
+	
 
-	SDL_RenderCopy(m_gRenderer, m_gTextures[PLAYFIELD], NULL, NULL);
-	// Render Background
-	SDL_RenderCopy(m_gRenderer, m_gTextures[DIRECTIONARROWS],
-		&m_arrow.GetArrowSrcRect(),
-		&m_arrow.GetArrowDestRect()); // Render current arrow
+	SDL_RenderClear(m_gRenderer); // Clear current rendering surface (cleared to all white)
 
-	int xLength; // integer to hold weather row is even or odd
-	for (int y = 0; y < NUM_OF_ROWS_Y; y++)
+	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKSPASH], NULL, NULL); // Render Backsplash
+	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKGROUND], NULL, NULL); // Render Background
+
+	int xLength; // integer to hold whether row is even or odd
+	for (int y = 0; y < BUBBLE_ARRAY_ROWS_Y; y++)
 	{
-		// Determine if the row is odd or even
-		if (y % 2 == 0)
+		if (y % 2 == 0)	// Determine if the row is odd or even
 		{
-			xLength = NUM_BUBBLES_EVEN;
+			xLength = BUBBLE_ARRAY_EVEN_X;
 		}
 		else
 		{
-			xLength = NUM_BUBBLES_ODD;
+			xLength = BUBBLE_ARRAY_ODD_X;
 		}
-		// Display all the bubbles in that row
-		for (int x = 0; x < xLength; x++)
+
+		for (int x = 0; x < xLength; x++)// Display all the bubbles in that row
 		{
-			if (bubbleArray[y] != nullptr) // This check is for demonstration
-										   // purposes[called in destructor]
-										   // (normally you would not be
-										   // displaying function with a null
-										   // parts of the bubble array)
+			if (m_bubbleArray[y][x] != nullptr)
 			{
-				if (bubbleArray[y][x] != nullptr)
-				{
-					SDL_RenderCopy(m_gRenderer, m_gTextures[BUBBLEIMG],
-						&bubbleArray[y][x]->GetSourceRect(),
-						&bubbleArray[y][x]->GetDestinationRect());
-				}
-			}
+				m_bubbleArray[y][x]->RenderBubble(m_gRenderer);
+			}	
 		}
 	}
+	m_shooterArrow->RenderArrow(m_gRenderer); // Render arrow to scrren
 
+	if (m_userFiredABubble == true)
+	{
+		m_firedBubble->CalcualteBubbleVector(m_shooterArrow->m_degreesRotation);
+	}
+
+	m_firedBubble->RenderBubble(m_gRenderer); // Render fire Bubble to screen
 	SDL_RenderPresent(m_gRenderer);	// Update screen
+	m_frameCount++;
+	
 }
+
+cBubble *** cRender::GetBubbleArray()
+{
+	return m_bubbleArray; // return pointer to bubbleArray
+}
+
+ SDL_Renderer * cRender::GetRenderer() 
+{
+	return m_gRenderer;	// Return render by vlaue (so it may be modified)
+}
+
+ void cRender::SetFiredBuble(cBubble * bubleToSet)
+ {
+	 m_firedBubble = bubleToSet;	// copy passed bubble 
+	 m_firedBubble->SetBubbleDestinationRectangle(FIRED_BUBBLE_X, 
+												  FIRED_BUBBLE_Y);
+	 
+	 bubleToSet = nullptr;
+ }
+
+ void cRender::SetArrowPosition(const Direction & moveDirection)
+ {
+	 {
+		 if (moveDirection == LEFT && 
+			  (m_shooterArrow->m_degreesRotation - ARROW_ROTATION_INCRAMENT) >
+														     -MAX_ARROW_DEGREE)
+		 {
+			 m_shooterArrow->m_degreesRotation -= ARROW_ROTATION_INCRAMENT;
+			 //Decrease tilt of arrow if possible
+		 }
+		 else if(moveDirection == RIGHT && 
+					m_shooterArrow->m_degreesRotation +
+								   ARROW_ROTATION_INCRAMENT < MAX_ARROW_DEGREE)
+		 {
+			 //Increase tilit if possible
+			 m_shooterArrow->m_degreesRotation += ARROW_ROTATION_INCRAMENT;
+		 }
+		 else if (moveDirection == DEFAULT)
+		 {
+			 //Set to zero if up-arrow is pressed
+			 m_shooterArrow->m_degreesRotation = 0;
+		 }
+	 }
+ }
+
+ 
+
