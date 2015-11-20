@@ -14,7 +14,7 @@
 cGameEngine::cGameEngine() : m_gameRender(new cRender)
 {
 	m_gameRender->SetFiredBuble(GenerateBubble());
-					// Set the firing bubble to a random generated type
+	// Set the firing bubble to a random generated type
 }
 
 cGameEngine::~cGameEngine()
@@ -41,39 +41,37 @@ void cGameEngine::BeginGame()
 
 		for (int x = 0; x < evenOrOdd; x++)
 		{
-			m_gameRender->GetBubbleArray()[y][x] = GenerateBubble(); 
-				// Fill current array location with a new bubble
-			
+			m_gameRender->m_bubbleArray[y][x] = GenerateBubble();
+			// Fill current array location with a new bubble
+
 			if (evenOrOdd == BUBBLE_ARRAY_EVEN_X)
 			{ // set the new bubbles corinates based on current element 
-				m_gameRender->GetBubbleArray()[y][x]->
-							SetBubbleDestinationRectangle(
-									(x* SINGLE_BUBBLE_SIZE) + 
-											BUBBLE_PXL_OFFSET_EVEN_X, 
-															pixelsDownOffSet);
+				m_gameRender->m_bubbleArray[y][x]->
+					SetBubbleDestinationRectangle(
+						(x* SINGLE_BUBBLE_SIZE) +
+						BUBBLE_PXL_OFFSET_EVEN_X,
+						pixelsDownOffSet);
 			}
 			else
 			{ // set the new bubbles cordinates based on current element
-				m_gameRender->GetBubbleArray()[y][x]->
-							SetBubbleDestinationRectangle(
-											(x* SINGLE_BUBBLE_SIZE) +
-												  BUBBLE_PXL_OFFSET_ODD_X,
-															 pixelsDownOffSet);
+				m_gameRender->m_bubbleArray[y][x]->
+					SetBubbleDestinationRectangle(
+						(x* SINGLE_BUBBLE_SIZE) +
+						BUBBLE_PXL_OFFSET_ODD_X,
+						pixelsDownOffSet);
 			}
-
-			m_gameRender->DisplayCurrentPlayField(); 
-												 // For demonstration purposes 
+			m_gameRender->m_bubbleArray[y][x]->SetArrayLocations(y, x);
 		}
 
 		if (evenOrOdd == BUBBLE_ARRAY_EVEN_X)
 		{
-			pixelsDownOffSet += BUBBLE_PXL_OFFSET_ODD_Y;	
-											// Add additional pixel offset
+			pixelsDownOffSet += BUBBLE_PXL_OFFSET_ODD_Y;
+			// Add additional pixel offset
 		}
 		else
 		{
 			pixelsDownOffSet += BUBBLE_PXL_OFFSET_EVEN_Y;
-											// Add additional pixel offset
+			// Add additional pixel offset
 		}
 	}
 }
@@ -84,11 +82,11 @@ void cGameEngine::RunGame()
 	bool quit = false;		// Condition flag set true if the user closes 
 							// the game window or(for demonstration purposes)
 							// if the user presses spacebar
-	
+
 	while (!quit)
 	{
-		while (SDL_PollEvent(&eventStream) != 0) 
-						// If SDL is still polling a continuous/repeated event
+		while (SDL_PollEvent(&eventStream) != 0)
+			// If SDL is still polling a continuous/repeated event
 		{
 			if (eventStream.type == SDL_QUIT)
 			{
@@ -106,11 +104,11 @@ void cGameEngine::RunGame()
 					break;
 				case SDLK_UP:
 					m_gameRender->SetArrowPosition(DEFAULT);
-					break; 
-				case SDLK_RCTRL: // Set top row randomly to red
+					break;
+				case SDLK_RCTRL:
 					HackGame();
 					break;
-				case SDLK_DOWN:	// Get a non-special bubble
+				case SDLK_DOWN:
 					GetNewBubble();
 					m_gameRender->m_userFiredABubble = false;
 					break;
@@ -118,7 +116,7 @@ void cGameEngine::RunGame()
 					m_gameRender->m_userFiredABubble = true;
 					break;
 				case SDLK_ESCAPE:
-					quit = true; 
+					quit = true;
 					break;
 				}
 			}
@@ -134,7 +132,7 @@ void cGameEngine::GetNewBubble()
 {
 	delete m_gameRender->m_firedBubble;
 	m_gameRender->SetFiredBuble(GenerateBubble());
-			// Regerate current bubble to some other type
+	// Regerate current bubble to some other type
 }
 
 void cGameEngine::HackGame()
@@ -142,16 +140,16 @@ void cGameEngine::HackGame()
 	// Cheat and change top row of bubbles randomly 
 	int x = rand() % BUBBLE_ARRAY_EVEN_X; // Genrate number from 0-8
 	delete m_gameRender->m_bubbleArray[0][x];	// Delete current bubble
-	// generate a random bubble 
+												// generate a random bubble 
 	m_gameRender->m_bubbleArray[0][x] = static_cast<cBubble*> (new cRegularBubble(m_gameRender->m_gRenderer));
-	m_gameRender->m_bubbleArray[0][x]-> SetBubbleDestinationRectangle (BUBBLE_PXL_OFFSET_EVEN_X + (x * SINGLE_BUBBLE_SIZE), BUBBLE_PXL_BOARDER_SPACING); // Set destination of new bubble
+	m_gameRender->m_bubbleArray[0][x]->SetBubbleDestinationRectangle(BUBBLE_PXL_OFFSET_EVEN_X + (x * SINGLE_BUBBLE_SIZE), BUBBLE_PXL_BOARDER_SPACING); // Set destination of new bubble
 }
 
 cBubble * cGameEngine::GenerateBubble()
 {
 	cBubble * returnBubble = nullptr;
 	int randomBubble = static_cast<BUBBLE_TYPE>(rand() % TOTALBUBBLES);
-		// Based on random number genrate a new bubble of the corsiponding type
+	// Based on random number genrate a new bubble of the corsiponding type
 	if (randomBubble >= RED && randomBubble <= WHITE)
 	{
 		returnBubble = new cRegularBubble(m_gameRender->GetRenderer());
@@ -169,15 +167,15 @@ cBubble * cGameEngine::GenerateBubble()
 		if (randomBubble == FIRE)
 			returnBubble = new  cFirePopBubble(m_gameRender->GetRenderer());
 		else if (randomBubble == RANDOMRECOLOR)
-		   returnBubble = new  cRandomColorBubble(m_gameRender->GetRenderer());
+			returnBubble = new  cRandomColorBubble(m_gameRender->GetRenderer());
 		else if (randomBubble == STATIC)
 			returnBubble = new  cStaticBubble(m_gameRender->GetRenderer());
 	}
 	else
 	{
 		// ERROR checking
-		std::cout << "Random bubble type generation not accounted for ERROR!" 
-			      << std::endl;
+		std::cout << "Random bubble type generation not accounted for ERROR!"
+			<< std::endl;
 	}
 
 	return returnBubble;

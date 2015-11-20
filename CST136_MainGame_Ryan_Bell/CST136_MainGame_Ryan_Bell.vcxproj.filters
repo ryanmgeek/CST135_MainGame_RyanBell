@@ -19,11 +19,11 @@
     <Filter Include="Header Files\BubbleRendering">
       <UniqueIdentifier>{73f0ff35-5945-4b9b-8a03-0a31ac90b58d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Bubbble Rendering">
+      <UniqueIdentifier>{2a42a61b-fd82-454a-8881-abfd87663723}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Bubble Types">
       <UniqueIdentifier>{dedacf38-7191-4170-a5a0-8979a961b3fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\BubbbleRendering">
-      <UniqueIdentifier>{2a42a61b-fd82-454a-8881-abfd87663723}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,22 +52,19 @@
       <Filter>Source Files\Bubble Types</Filter>
     </ClCompile>
     <ClCompile Include="cArrow.cpp">
-      <Filter>Source Files\BubbbleRendering</Filter>
+      <Filter>Source Files\Bubbble Rendering</Filter>
     </ClCompile>
     <ClCompile Include="cBubble.cpp">
-      <Filter>Source Files\BubbbleRendering</Filter>
+      <Filter>Source Files\Bubbble Rendering</Filter>
     </ClCompile>
     <ClCompile Include="cBubblePhysics.cpp">
-      <Filter>Source Files\BubbbleRendering</Filter>
+      <Filter>Source Files\Bubbble Rendering</Filter>
     </ClCompile>
     <ClCompile Include="cRender.cpp">
-      <Filter>Source Files\BubbbleRendering</Filter>
+      <Filter>Source Files\Bubbble Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vBubbleConstruct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cFirePopBubble.h">
       <Filter>Header Files\BubbleTypes</Filter>
     </ClInclude>

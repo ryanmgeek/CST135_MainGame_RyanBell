@@ -67,14 +67,17 @@
 #define CRENDER_H
 #include "cArrow.h"
 #include "cBubble.h"
+#include <stack>
 
-
+using std::stack;
 
 char * const GAME_NAME = "Techno Bubble Puzzle";	// Name of the game
-char* const BACKGROUND_IMAGE_PATH [] = {"Backsplash.png", "Background.png"};
-										//Image paths to backgrounds 
-enum IMAGE_PATHS {BACKSPASH, BACKGROUND, TOTAL_BACKGROUNDS};
-										//Index of array of background textures  
+char* const BACKGROUND_IMAGE_PATH[] = { "Backsplash.png", "Background.png" };
+//Image paths to backgrounds 
+enum IMAGE_PATHS {
+	BACKSPASH, BACKGROUND, TOTAL_BACKGROUNDS
+};
+//Index of array of background textures  
 
 
 const int MAX_ARROW_DEGREE = 80;				//Max Incline of arrow possible
@@ -87,15 +90,15 @@ public:
 	~cRender();
 
 	void DisplayCurrentPlayField();
-	cBubble *** GetBubbleArray();
 	SDL_Renderer * GetRenderer();
 	void SetFiredBuble(cBubble *);
 	void SetArrowPosition(const Direction & moveDirection);
-
+	void CalculateTouchingCounts();
 
 private:
 	bool Initalize();
 	bool LoadMedia();
+	void DiscernNearbyBubbles(int y, int x);
 
 	cBubble ** m_bubbleArray[BUBBLE_ARRAY_ROWS_Y];		//MAIN buble array
 	cArrow * m_shooterArrow;						//Bubble shooter graphic
@@ -107,6 +110,7 @@ private:
 
 	bool m_userFiredABubble;
 	int m_frameCount;
+	stack <cBubble> m_vistedBubbbles;
 };
 
 #endif

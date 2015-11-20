@@ -44,7 +44,6 @@
     <ClInclude Include="cRegularBubble.h" />
     <ClInclude Include="cRender.h" />
     <ClInclude Include="cStaticBubble.h" />
-    <ClInclude Include="vBubbleConstruct.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A725CB83-79AC-4C4C-B2B5-5C2B111C2A77}</ProjectGuid>

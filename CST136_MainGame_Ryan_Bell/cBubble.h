@@ -54,11 +54,11 @@
 *	 Entry:		Equals operator is used between two bubbles
 *	 Exit:		destination's cBubble members are set equal to another
 *				cBubble
-*	virtual void SpecialEffect(cBubble ** bubbleArray[], 
-*													SDL_Renderer * m_gRenderer);
+*	virtual void SpecialEffect(cBubble ** bubbleArray[],
+*												SDL_Renderer * m_gRenderer);
 *	********************************************************************
 *	 Purpose:	Animate Special effect corrsiponding to bubble type
-*	 Entry:		Method uis abstract and is inovked by primarily 
+*	 Entry:		Method uis abstract and is inovked by primarily
 *				inheriting objects
 *	 Exit:		Special effect is displayed based on bubble type
 *	********************************************************************
@@ -68,13 +68,13 @@
 *	 Purpose:	Increase the touch count of bubble
 *	 Entry:		A new bubble is added to the array and the touch count needs
 *				to be updated
-*	 Exit:		The m_touchingCount is incramented based on proximety to 
+*	 Exit:		The m_touchingCount is incramented based on proximety to
 *				its matching colors, using a debth first search
 *	********************************************************************
 *	virtual void Pop(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
 *	********************************************************************
 *	 Purpose:	Pops all matching color types of that bubble based on proximety
-*	 Entry:		New bubble of same color is added to the array or is 
+*	 Entry:		New bubble of same color is added to the array or is
 *				invoked by special effect
 *	 Exit:		cBubble array is rearraged, bubles are destroyed, and object
 *				calling pop is popped
@@ -90,7 +90,7 @@
 *	 Purpose:	Loads bubble media and surface for each bubble
 *	 Entry:		is called on instationon of any bubble type
 *	 Exit:		The surface is loaded for each bubble and the correct source
-*				rectangle from the sprite sheet for that bubble 
+*				rectangle from the sprite sheet for that bubble
 *				type is calculated
 *	********************************************************************
 *	void CalcualteBubbleVector(const int& arrowDegrees);
@@ -98,7 +98,7 @@
 *	 Purpose:	To calculate the vector on wich a shot bubble will travel
 *	 Entry:		Is called once the user presses the space-bar
 *	 Exit:		The bubble vector is calculated and the bubble is rendered
-*				onto the renderer que 
+*				onto the renderer que
 ***********************************************************************/
 
 #ifndef CBUBBLE_H
@@ -106,7 +106,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-#include "vBubbleConstruct.h"
 #include "cBubblePhysics.h"
 
 const int BUBBLE_ARRAY_ROWS_Y = 11;
@@ -117,15 +116,22 @@ const int BUBBLEIMG_BUBBLE_ROWS = 3;
 
 const int ARROW_ROTATION_INCRAMENT = 5;			//Amount to roatate arrow by
 
-//All possible bubble types
-enum BUBBLE_TYPE { 
-   RED, YELLOW, GREEN, BLUE, PURPLE, WHITE,
-   RED_EQUAL, YELLOW_EQUAL, GREEN_EQUAL, BLUE_EQUAL, PURPLE_EQUAL, WHITE_EQUAL,
-   RED_POP, YELLOW_POP, GREEN_POP, BLUE_POP, PURPLE_POP, WHITE_POP,
-   FIRE, RANDOMRECOLOR, STATIC, TOTALBUBBLES};
+												//All possible bubble types
+enum BUBBLE_TYPE {
+	RED, YELLOW, GREEN, BLUE, PURPLE, WHITE,
+	RED_EQUAL, YELLOW_EQUAL, GREEN_EQUAL, BLUE_EQUAL, PURPLE_EQUAL, WHITE_EQUAL,
+	RED_POP, YELLOW_POP, GREEN_POP, BLUE_POP, PURPLE_POP, WHITE_POP,
+	FIRE, RANDOMRECOLOR, STATIC, TOTALBUBBLES
+};
+
+enum BUBBLE_LOCATION {
+	RIGHT_HAND, LRIGHT, LLEFT, LEFT_HAND, ULEFT, URIGHT
+};
 
 //Bubble types cataries
-enum BUBBLE_EFFECT { SPECIAL, POP, EQUAL, CLAW };
+enum BUBBLE_EFFECT {
+	SPECIAL, POP, EQUAL, CLAW
+};
 
 
 const int BUBBLES_PER_ROW = 6;	    //Bubbles per row in bubbble sprite sheet 
@@ -133,40 +139,44 @@ const int BUBBLES_PER_ROW = 6;	    //Bubbles per row in bubbble sprite sheet
 
 char* const BUBBLE_IMG_PATH = "Bubbles.png";	//Path to bubbble img
 
-class cBubble : public vBubbleConstruct
+class cBubble
 {
-	
 public:
 	cBubble();
 	virtual ~cBubble();
 	cBubble & operator=(const cBubble &rightSide);
 	cBubble(const cBubble & rightSide);
-	
-	virtual void DisplayPopAnimation() = 0;
-	
-	virtual void SpecialEffect(cBubble ** bubbleArray[], 
-											SDL_Renderer * m_gRenderer);
-	virtual void IncreaseTouching(cBubble ** bubbleArray[],
-											SDL_Renderer * m_gRenderer);
-	virtual void Pop(cBubble ** bubbleArray[], 
-											SDL_Renderer * m_gRenderer);
 
+	virtual void SpecialEffect(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
+	virtual void SetTouching(const int & newTouchCount);
+	virtual void Pop(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
 	void RenderBubble(SDL_Renderer * m_gRenderer);
-	void SetBubbleDestinationRectangle(int const &xCordinate, 
-														int const &yCordinate);
+	void SetBubbleDestinationRectangle(int const &xCordinate, int const &yCordinate);
 	void CalcualteBubbleVector(const int& arrowDegrees);
+	void SetArrayLocations(int const &y, int const &x);
+	const bool & GetVisted();
+	BUBBLE_TYPE GetBubbleType();
+	void SetVisted(const bool& updatedVisted);
+	void SetPrevious(cBubble * previousBubble);
+	void SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, cBubble* nearbyBubble);
 
 protected:
 	int m_touchingBubbleCount;	//Number of bubbles touching of the same type
-	const int& GetTouchingCount() const;	
+	const int& GetTouchingCount() const;
 	void LoadBubbleMedia(SDL_Renderer * m_gRenderer);
 
 	BUBBLE_TYPE m_bubbleType;		//Bubble type (SPECIAL, POP, EQUAL, CLAW )
 	SDL_Rect m_sourceRectangle;		//Source of sprite sheet texture Rect
 	SDL_Rect m_destinationRectangle; //Destination of printing to render rect
+	int m_x;	 //X loaction in the bubble array
+	int m_y;	 //Y location in the bubble array
 private:
 	cBubblePhysics * m_physicsEngine;		//Physics for the particual bubble
 	SDL_Texture * m_bubbleTexture;			//Texture sheet for bubble
+	bool m_visted;
+	cBubble * m_surroundingBubbles[6];
+	cBubble * m_previousBubble;
+
 
 };
 #endif

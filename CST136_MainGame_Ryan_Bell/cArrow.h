@@ -26,7 +26,7 @@
 *	cArrow(SDL_Renderer * m_gRenderer);
 *	********************************************************************
 *	 Purpose:	Construct arrow object with a renderer
-*	 Entry:		object is instatied by  cRenderer class 
+*	 Entry:		object is instatied by  cRenderer class
 *	 Exit:		Constructs a cArrow object with refrence to the passed renderer
 *	********************************************************************
 * Mutators:
@@ -45,8 +45,8 @@
 *	********************************************************************
 *	 Purpose:	Render cArrow object to renderer buffer
 *	 Entry:		Is called by the cRenderer class for a cArrrow object
-*	 Exit:		The current cArrow object is loaded to the renderer with 
-*				a point of rotation and the current degree of roation taken 
+*	 Exit:		The current cArrow object is loaded to the renderer with
+*				a point of rotation and the current degree of roation taken
 *				taken into account,.
 ***********************************************************************/
 #ifndef CARROW_H
@@ -55,14 +55,16 @@
 #include <SDL_image.h>
 #include "cBubblePhysics.h"
 
-enum Direction { LEFT, RIGHT, DEFAULT };
+enum Direction {
+	LEFT, RIGHT, DEFAULT
+};
 
 
-const int PIXEL_OFFSET_ROTATION = 144; 
-					//Roation along y axis that needs to be offset
+const int PIXEL_OFFSET_ROTATION = 144;
+//Roation along y axis that needs to be offset
 
 char * const ARROW_IMG_PATH = "BubbleShooterArrow.png";
-	//Path of arrow img
+//Path of arrow img
 
 class cArrow
 {
@@ -74,7 +76,7 @@ public:
 	cArrow(const cArrow & rightSide);
 	cArrow(SDL_Renderer * m_gRenderer);
 	void RenderArrow(SDL_Renderer * m_gRenderer);
-	
+
 
 
 private:
@@ -82,6 +84,6 @@ private:
 	SDL_Rect m_destinationRectangle;//Rectangle of where to display to
 	SDL_Point m_rotationPoint;		//Point torotatoe arrow about
 	int m_degreesRotation;		//Degrees of roation from vertial 
-	
+
 };
 #endif

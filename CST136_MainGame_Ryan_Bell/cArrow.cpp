@@ -3,23 +3,23 @@
 #include "cArrow.h"
 #include <iostream>	// ERROR reporting
 
-cArrow::cArrow(SDL_Renderer * m_gRenderer) : m_arrowTexture(nullptr), 
-										 	 m_destinationRectangle{},
-											 m_degreesRotation(0),
-											 m_rotationPoint{0,0}
+cArrow::cArrow(SDL_Renderer * m_gRenderer) : m_arrowTexture(nullptr),
+m_destinationRectangle{},
+m_degreesRotation(0),
+m_rotationPoint{ 0,0 }
 {
 
 	SDL_Surface * tempSurface = IMG_Load(ARROW_IMG_PATH); //Load arrow Img
-	
+
 	m_destinationRectangle.h = tempSurface->h; //get heigth from loaded surface
 	m_destinationRectangle.w = tempSurface->w;
 	m_arrowTexture = SDL_CreateTextureFromSurface(m_gRenderer, tempSurface);
-	
+
 	if (m_arrowTexture == nullptr) //Check surface was created correctly
 	{
-		std::cout << "ERROR: The arrow surface could not be loaded " 
-				  << SDL_GetError() 
-				  << std::endl;
+		std::cout << "ERROR: The arrow surface could not be loaded "
+			<< SDL_GetError()
+			<< std::endl;
 	}
 
 	SDL_FreeSurface(tempSurface); // Get rid of temporary surfcae
@@ -36,8 +36,8 @@ cArrow::cArrow(SDL_Renderer * m_gRenderer) : m_arrowTexture(nullptr),
 cArrow::cArrow() : m_arrowTexture(nullptr), m_destinationRectangle{}
 {
 	std::cout << "An error occurred a arrow object has "
-		      <<"been instantiated without being passed the renderer" 
-		      << std::endl;
+		<< "been instantiated without being passed the renderer"
+		<< std::endl;
 }
 
 cArrow & cArrow::operator=(const cArrow & rightSide) //Assignment overload
@@ -71,11 +71,11 @@ cArrow::~cArrow()
 void cArrow::RenderArrow(SDL_Renderer * m_gRenderer)
 {
 	SDL_RenderCopyEx(m_gRenderer,
-					 m_arrowTexture, 
-					 nullptr, 
-					 &m_destinationRectangle,
-					 m_degreesRotation, 
-					 &m_rotationPoint,
-					 SDL_FLIP_NONE);
+		m_arrowTexture,
+		nullptr,
+		&m_destinationRectangle,
+		m_degreesRotation,
+		&m_rotationPoint,
+		SDL_FLIP_NONE);
 }
 

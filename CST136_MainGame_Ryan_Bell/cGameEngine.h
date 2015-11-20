@@ -39,16 +39,16 @@
 *	void GetNewBubble();
 *	********************************************************************
 *	 Purpose:	Get a new bubble to fire at bubble array
-*	 Entry:		Method is invoked by cGameEngine 
+*	 Entry:		Method is invoked by cGameEngine
 *	 Exit:		A new bubble type is replaced with current bubble being fired
-*				Unless the type of the currently being fired bubble is a 
+*				Unless the type of the currently being fired bubble is a
 *				regular bubble.
 *   *******************************************************************
 *	void HackGame();
 *	********************************************************************
 *	 Purpose:	Hack the top row of bubbles to be a more desirable color
 *	 Entry:		Method is invoked by cGameEngine
-*	 Exit:		A new regular cBubble is created and cast to a location in the 
+*	 Exit:		A new regular cBubble is created and cast to a location in the
 *				first row of the bubble Array
 *   *******************************************************************
 *	 cBubble * GenerateBubble();
@@ -66,14 +66,14 @@
 const int NUMBER_OF_START_ROWS = 6;	   //Rows of bubbles to start the game with
 
 
-const int BUBBLE_PXL_OFFSET_EVEN_X = 576; 
-										// Number of pixels to offset even rows
+const int BUBBLE_PXL_OFFSET_EVEN_X = 576;
+// Number of pixels to offset even rows
 const int BUBBLE_PXL_OFFSET_ODD_X = 624;
-										// Number of pixels to offset odd rows						
+// Number of pixels to offset odd rows						
 const int BUBBLE_PXL_OFFSET_EVEN_Y = 84;
-							//Number of pixels to offset the heigt of even rows
+//Number of pixels to offset the heigt of even rows
 const int BUBBLE_PXL_OFFSET_ODD_Y = 82;
-							 //Number of pixels to offset the heigt of odd rows
+//Number of pixels to offset the heigt of odd rows
 
 class cGameEngine
 {
@@ -83,14 +83,14 @@ public:
 
 	void BeginGame();
 	void RunGame();
-		
-private: 
+
+private:
 	void GetNewBubble();
 	void HackGame();
 	cBubble * GenerateBubble();
 	cRender * m_gameRender;	// GameRenderer object to render/ manager surfaces
-	
-	
+
+
 };
 
 #endif 
