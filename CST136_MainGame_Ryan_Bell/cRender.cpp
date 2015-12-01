@@ -532,7 +532,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 			m_bubbleArray[y][x]->SetSurroundingBubbles
 				(LEFT_HAND, m_bubbleArray[y][x - 1]);
 			m_bubbleArray[y][x - 1]->SetPrevious(m_bubbleArray[y][x]);
-			DiscernNearbyBubbles(y - 1, x);
+			DiscernNearbyBubbles(y, x - 1);
 		}
 	}
 	if (checkUpperLeft == true)
