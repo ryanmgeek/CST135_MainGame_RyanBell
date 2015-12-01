@@ -1,8 +1,4 @@
 //Ryan Bell
-
-/*
-* CLASS NOT YET IMPALAMENTED (PLACE HOLDER)
-*/
 #include "cBubblePhysics.h"
 
 cBubblePhysics::cBubblePhysics() : m_xMovemenet(0), m_yMovement(0),

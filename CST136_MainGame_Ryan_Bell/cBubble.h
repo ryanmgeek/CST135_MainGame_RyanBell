@@ -46,6 +46,42 @@
 *	 Exit:		cBubbles destination is set to the passed cordinates
 *				or an error is thrown
 *	********************************************************************
+*    void SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation,
+*													 cBubble* nearbyBubble);
+*	********************************************************************
+*	 Purpose:	set the surounding bubble of a bubble at the passeed bubble
+*				location to the passed bubble
+*	 Entry:		CacluateTouching count is called
+*	 Exit:		The passed bubble is loaded onto the current bubble's vector
+*				at the passed BUBBLE_LOCATION
+*	********************************************************************
+*	void SetArrayLocations(int const &y, int const &x);
+*	********************************************************************
+*	 Purpose:  Set the bubble's arrayLocation data memenbbers
+*	 Entry:	   Bubble is instatiated and its coorditaes in the array are needed
+*	 Exit:	   The bubboles arrayLocation data memebers are set to
+*			   the passed x and y values
+*	********************************************************************
+*	virtual void SetTouching(const int & newTouchCount);
+*	********************************************************************
+*	 Purpose:  Set the bubble's touchcount data memenbbers
+*	 Entry:	  CalculateBubblesTouchCount is called for the bubblearray
+*	 Exit:	  The bubble's count of how many of the same type of bubbles
+*			  that it is touching is set to the passed value
+*	********************************************************************
+*	void SetVisted(const bool& updatedVisted);
+*	********************************************************************
+*	 Purpose:  Set the bubble's visted boolean
+*	 Entry:	 CalcluateBubblesTouchVCount is called by Renderer
+*	 Exit:	 The bubbles visted boolean is set to the passed boolean value
+*	********************************************************************
+*   void SetPrevious(cBubble * previousBubble);
+*	********************************************************************
+*	 Purpose:  Set the bubble's previous bubble pointer to the passed bubble
+*	 Entry:	 CalcluateBubblesTouchVCount is called by Renderer
+*	 Exit:	The bubble's previous bubble data memeber is set to the passed
+*			cBubble
+*	********************************************************************
 * Methods
 * ---------------
 * 	cBubble& operator = (const cBubble& rightSide);
@@ -107,29 +143,33 @@
 #include <SDL_image.h>
 #include <iostream>
 #include "cBubblePhysics.h"
+#include <vector>
 
 const int BUBBLE_ARRAY_ROWS_Y = 11;
 const int BUBBLE_ARRAY_EVEN_X = 8;
 const int BUBBLE_ARRAY_ODD_X = 7;
 const int BUBBLEIMG_BUBBLES_PER_ROW = 6;
 const int BUBBLEIMG_BUBBLE_ROWS = 3;
-
+const int MAX_SURROUNDING_BUBBLES = 6;
 const int ARROW_ROTATION_INCRAMENT = 5;			//Amount to roatate arrow by
 
 												//All possible bubble types
-enum BUBBLE_TYPE {
+enum BUBBLE_TYPE
+{
 	RED, YELLOW, GREEN, BLUE, PURPLE, WHITE,
 	RED_EQUAL, YELLOW_EQUAL, GREEN_EQUAL, BLUE_EQUAL, PURPLE_EQUAL, WHITE_EQUAL,
 	RED_POP, YELLOW_POP, GREEN_POP, BLUE_POP, PURPLE_POP, WHITE_POP,
 	FIRE, RANDOMRECOLOR, STATIC, TOTALBUBBLES
 };
-
-enum BUBBLE_LOCATION {
+//Every Location a bubble can exsit at surrounding a bubble
+enum BUBBLE_LOCATION
+{
 	RIGHT_HAND, LRIGHT, LLEFT, LEFT_HAND, ULEFT, URIGHT
 };
 
 //Bubble types cataries
-enum BUBBLE_EFFECT {
+enum BUBBLE_EFFECT
+{
 	SPECIAL, POP, EQUAL, CLAW
 };
 
@@ -147,25 +187,28 @@ public:
 	cBubble & operator=(const cBubble &rightSide);
 	cBubble(const cBubble & rightSide);
 
-	virtual void SpecialEffect(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
+	virtual void SpecialEffect(cBubble ** bubbleArray[],
+		SDL_Renderer * m_gRenderer);
 	virtual void Pop(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
 	void RenderBubble(SDL_Renderer * m_gRenderer);
 	void CalcualteBubbleVector(const int& arrowDegrees);
 
 	const BUBBLE_TYPE & GetBubbleType();
 	const bool & GetVisted();
-	const int & GetTouchCount();
+	const int & GetTouchCount(); //For demonstration purposes (press K)
 
-	void SetBubbleDestinationRectangle(int const &xCordinate, int const &yCordinate);
+	void SetBubbleDestinationRectangle(int const &xCordinate,
+		int const &yCordinate);
 	void SetArrayLocations(int const &y, int const &x);
 	virtual void SetTouching(const int & newTouchCount);
 	void SetVisted(const bool& updatedVisted);
 	void SetPrevious(cBubble * previousBubble);
-	void SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, cBubble* nearbyBubble);
+	void SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation,
+		cBubble* nearbyBubble);
 
 protected:
 	int m_touchingBubbleCount;	//Number of bubbles touching of the same type
-	const int& GetTouchingCount() const;
+	const int & GetTouchingCount() const;
 	void LoadBubbleMedia(SDL_Renderer * m_gRenderer);
 
 	BUBBLE_TYPE m_bubbleType;		//Bubble type (SPECIAL, POP, EQUAL, CLAW )
@@ -177,8 +220,9 @@ private:
 	cBubblePhysics * m_physicsEngine;		//Physics for the particual bubble
 	SDL_Texture * m_bubbleTexture;			//Texture sheet for bubble
 	bool m_visted;
-	cBubble * m_surroundingBubbles[6];
-	cBubble * m_previousBubble;
+	//vector of all surrounding bubbles
+	cBubble * m_surroundingBubbles[5];
+	cBubble * m_previousBubble;	//Pointer to previous bubble
 
 
 };

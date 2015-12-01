@@ -54,13 +54,29 @@
 *	 Entry:		Method is called by constuctor
 *	 Exit:		Texture array is filled with loaded images, boolean
 *				of success is returned
-***********************************************************************
+*	***********************************************************************
 *	bool Initalize();
 *	********************************************************************
 *	 Purpose:	Initalize data memebers and start SDL libraries
 *	 Entry:		Is called by constuctor on instation
 *	 Exit:		boolean is returned for success and data
 *				memebers/ objs are successfully instatiatied
+*	***********************************************************************
+*	void CalculateTouchingCounts();
+*	********************************************************************
+*	 Purpose:	Calcualte the number of bubbles in a group of the same type
+*	 Entry :	Is called by GameEngine during the game loop
+*	 Exit :		Loops through the bubble array while every bubble has not
+*				been visted
+*	***********************************************************************
+*	void DiscernNearbyBubbles(int y, int x);
+*	********************************************************************
+*	 Purpose:	Recersively go through the bubble array and determine the
+*				number of bubbles in a group
+*	 Entry :	Is called by CalculateTouchingCount for a bubble that has
+*				not been visted
+*	 Exit :		The bubbles previous bubble and surrounding bubbles are set
+*				and marked as visted. Then popped onto the m_vistedBubble stack
 ***********************************************************************/
 
 #ifndef CRENDER_H
@@ -110,7 +126,9 @@ private:
 
 	bool m_userFiredABubble;
 	int m_frameCount;
-	stack <cBubble *> m_vistedBubbbles;
+	stack <cBubble *> m_vistedBubbbles; //Stack of all visted bubbles in a
+										//group while looping through 
+										//CalculateTouchingCount
 };
 
 #endif

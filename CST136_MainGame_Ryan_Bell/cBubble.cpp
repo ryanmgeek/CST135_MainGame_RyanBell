@@ -3,6 +3,7 @@
 #include "cBubble.h"
 #include <iostream>
 
+// Base memeber intalize all data memebers to default values 
 cBubble::cBubble() :
 	m_physicsEngine(new cBubblePhysics),
 	m_sourceRectangle{ 0,0,SINGLE_BUBBLE_SIZE,SINGLE_BUBBLE_SIZE },
@@ -12,12 +13,12 @@ cBubble::cBubble() :
 	m_touchingBubbleCount(0),
 	m_x(0),
 	m_y(0),
-	m_surroundingBubbles{},
 	m_previousBubble(nullptr),
-	m_visted(false)
+	m_visted(false),
+	m_surroundingBubbles{}
+{
 
-	// Base memeber intalize all data memebers to default values 
-{}
+}
 
 cBubble::~cBubble()
 {
@@ -69,7 +70,10 @@ void cBubble::RenderBubble(SDL_Renderer * m_gRenderer)
 void cBubble::SetBubbleDestinationRectangle(int const & xCordinate,
 	int const & yCordinate)
 {
-	if ((xCordinate >= 0 && yCordinate >= 0) && (xCordinate <= SCREEN_WIDTH - SINGLE_BUBBLE_SIZE && yCordinate <= SCREEN_HEIGHT - SINGLE_BUBBLE_SIZE)) //  Check passed coordinates
+	//  Check passed coordinates
+	if ((xCordinate >= 0 && yCordinate >= 0) &&
+		(xCordinate <= SCREEN_WIDTH - SINGLE_BUBBLE_SIZE &&
+			yCordinate <= SCREEN_HEIGHT - SINGLE_BUBBLE_SIZE))
 	{
 		m_destinationRectangle.x = xCordinate;
 		m_destinationRectangle.y = yCordinate;
@@ -138,71 +142,6 @@ void cBubble::SetTouching(const int & newTouchCount)
 	m_touchingBubbleCount = newTouchCount;
 }
 
-
-void cBubble::CalcualteBubbleVector(const int & arrowDegrees)
-{
-	if (m_physicsEngine->m_bubbleReachedEnd != true)
-	{
-		int yIncreasePixel = 0; //calculate remained on the y cordinate
-		m_physicsEngine->m_yPixelCount += (m_physicsEngine->m_yMovement -
-			static_cast<int>(m_physicsEngine->m_yMovement));
-		if (m_physicsEngine->m_yPixelCount >= 1)
-		{
-			m_physicsEngine->m_yPixelCount--;
-			yIncreasePixel++;
-		}
-		int xIncreasePixel = 0;	//Calulate remaainder on the y cordinate
-		m_physicsEngine->m_xPixelCount += (m_physicsEngine->m_xMovemenet -
-			static_cast<int>(m_physicsEngine->m_xMovemenet));
-		if (m_physicsEngine->m_xPixelCount >= 1)
-		{
-			m_physicsEngine->m_xPixelCount--;
-			xIncreasePixel++;
-		}
-
-		//If this is the first call of the physics engine
-		if (m_physicsEngine->m_xMovemenet == 0 &&
-			m_physicsEngine->m_yMovement == 0)
-		{
-			m_physicsEngine->m_shotAtDegree = RIGHTTRIANGLEANGLE - arrowDegrees;
-			m_physicsEngine->CalculateVector();
-
-			int  y = static_cast <int>(FIRED_BUBBLE_Y - m_physicsEngine->m_yMovement);
-			int x = static_cast <int>(FIRED_BUBBLE_X + m_physicsEngine->m_xMovemenet);
-
-			SetBubbleDestinationRectangle(x, y);
-		}
-		else
-		{
-			//If the vector has been calulcualted at least once
-		}
-		{
-			int x = static_cast<int>(m_destinationRectangle.x + m_physicsEngine->m_xMovemenet
-				+ xIncreasePixel);
-			int y = static_cast<int>(m_destinationRectangle.y - m_physicsEngine->m_yMovement
-				- yIncreasePixel);
-
-			bool recalculatedVector = m_physicsEngine->CheckVector(x, y);
-
-			if (recalculatedVector == true)
-			{
-				x = static_cast<int>(m_destinationRectangle.x + m_physicsEngine->m_xMovemenet
-					+ xIncreasePixel);
-				y = static_cast<int>(m_destinationRectangle.y - m_physicsEngine->m_yMovement
-					- yIncreasePixel);
-			}
-			if (m_physicsEngine->m_bubbleReachedEnd != true)
-			{
-				SetBubbleDestinationRectangle(x, y);
-			}
-			else
-			{
-				SetBubbleDestinationRectangle(x, BUBBLE_PXL_BOARDER_SPACING);
-			}
-		}
-	}
-}
-
 void cBubble::SetArrayLocations(int const &y, int const &x)
 {
 	bool badLocation = true;
@@ -229,8 +168,10 @@ void cBubble::SetArrayLocations(int const &y, int const &x)
 
 	if (badLocation == true)
 	{
-		std::cout << "Could not set the bubble of type: " << m_bubbleType << std::endl;
-		std::cout << "The location of [" << y << "] [" << x << "] is not a valid location" << std::endl;
+		std::cout << "Could not set the bubble of type: "
+			<< m_bubbleType << std::endl;
+		std::cout << "The location of [" << y << "] [" << x
+			<< "] is not a valid location" << std::endl;
 	}
 	else
 	{
@@ -262,20 +203,89 @@ void cBubble::SetVisted(const bool & updatedVisted)
 
 void cBubble::SetPrevious(cBubble * previousBubble)
 {
-
 	m_previousBubble = previousBubble;
-
 }
 
 void cBubble::SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, cBubble* nearbyBubble)
 {
 	if (nearbyBubble != nullptr)
 	{
-
+		m_surroundingBubbles[bubbleLocation] = nearbyBubble;
 	}
 	else
 	{
-		std::cout << "I cannot insert a nearbybubble at " << bubbleLocation << " of the array it is null" << std::endl;
+		std::cout << "I cannot insert a nearbybubble at " <<
+			bubbleLocation << " of the array it is null" << std::endl;
 	}
 }
 
+void cBubble::CalcualteBubbleVector(const int & arrowDegrees)
+{
+	if (m_physicsEngine->m_bubbleReachedEnd != true)
+	{
+		int yIncreasePixel = 0; //calculate remained on the y cordinate
+		m_physicsEngine->m_yPixelCount += (m_physicsEngine->m_yMovement -
+			static_cast<int>(m_physicsEngine->m_yMovement));
+		if (m_physicsEngine->m_yPixelCount >= 1)
+		{
+			m_physicsEngine->m_yPixelCount--;
+			yIncreasePixel++;
+		}
+		int xIncreasePixel = 0;	//Calulate remaainder on the y cordinate
+		m_physicsEngine->m_xPixelCount += (m_physicsEngine->m_xMovemenet -
+			static_cast<int>(m_physicsEngine->m_xMovemenet));
+		if (m_physicsEngine->m_xPixelCount >= 1)
+		{
+			m_physicsEngine->m_xPixelCount--;
+			xIncreasePixel++;
+		}
+
+		//If this is the first call of the physics engine
+		if (m_physicsEngine->m_xMovemenet == 0 &&
+			m_physicsEngine->m_yMovement == 0)
+		{
+			m_physicsEngine->m_shotAtDegree =
+				RIGHTTRIANGLEANGLE - arrowDegrees;
+			m_physicsEngine->CalculateVector();
+
+			int  y = static_cast <int>(FIRED_BUBBLE_Y -
+				m_physicsEngine->m_yMovement);
+			int x = static_cast <int>(FIRED_BUBBLE_X +
+				m_physicsEngine->m_xMovemenet);
+
+			SetBubbleDestinationRectangle(x, y);
+		}
+		else
+		{
+			//If the vector has been calulcualted at least once
+		}
+		{
+			int x = static_cast<int>(m_destinationRectangle.x +
+				m_physicsEngine->m_xMovemenet
+				+ xIncreasePixel);
+			int y = static_cast<int>(m_destinationRectangle.y -
+				m_physicsEngine->m_yMovement
+				- yIncreasePixel);
+
+			bool recalculatedVector = m_physicsEngine->CheckVector(x, y);
+
+			if (recalculatedVector == true)
+			{
+				x = static_cast<int>(m_destinationRectangle.x +
+					m_physicsEngine->m_xMovemenet
+					+ xIncreasePixel);
+				y = static_cast<int>(m_destinationRectangle.y -
+					m_physicsEngine->m_yMovement
+					- yIncreasePixel);
+			}
+			if (m_physicsEngine->m_bubbleReachedEnd != true)
+			{
+				SetBubbleDestinationRectangle(x, y);
+			}
+			else
+			{
+				SetBubbleDestinationRectangle(x, BUBBLE_PXL_BOARDER_SPACING);
+			}
+		}
+	}
+}
