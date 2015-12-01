@@ -44,8 +44,9 @@ void cBubblePhysics::CalculateVector()
 		PIXELS_TO_MOVE_BUBBLE_PERSECOND;
 }
 
-bool cBubblePhysics::CheckVector(int x, int y)
+bool cBubblePhysics::CheckVector(int x, int y, cBubble** bubbleArray[])
 {
+	// Initial checks for bubble colliding with the walls/ ceiling
 	bool recalculatedVector = false;
 	if (x < LEFT_EDGE_PLAYFEILD || x > RIGHT_EDGE_PLAYFEILD)
 	{
@@ -53,10 +54,54 @@ bool cBubblePhysics::CheckVector(int x, int y)
 		CalculateVector();
 		recalculatedVector = true;
 	}
-	if (y <= BUBBLE_PXL_BOARDER_SPACING)
+
+	int oddOrEven = 0;
+	int pxlOffsetPerRow = BUBBLE_PXL_BOARDER_SPACING - BUBBLE_PXL_OFFSET_ODD_Y;	// Start offset at 24 to account for boarder and account for adding unneeded offset in the first iteration
+	int pxlOffsetPerElement = 0;
+	int pxlOffsetOfCurrentElement = 0;
+
+	for (int row = 0; row < BUBBLE_ARRAY_ROWS_Y; row++)
 	{
-		m_bubbleReachedEnd = true;
+		if (row % 2 == 0)									// Check if current row is even or odd
+		{
+			oddOrEven = BUBBLE_ARRAY_EVEN_X;
+			pxlOffsetPerRow += BUBBLE_PXL_OFFSET_ODD_Y;		// Add the previous rows offset
+			pxlOffsetPerElement = BUBBLE_PXL_OFFSET_EVEN_X;	// change pxl offset to account for current row
+		}
+		else												// check if Current row is odd
+		{
+			oddOrEven = BUBBLE_ARRAY_ODD_X;
+			pxlOffsetPerRow += BUBBLE_PXL_OFFSET_EVEN_Y;	// Add the previous rows offset
+			pxlOffsetPerElement = BUBBLE_PXL_OFFSET_ODD_X;	// change pxl offset to account for current row
+		}
+
+		for (int element = 0; element < oddOrEven; element++)
+		{
+			if (bubbleArray[row][element] != nullptr)
+			{
+				pxlOffsetOfCurrentElement = pxlOffsetPerElement + (SINGLE_BUBBLE_SIZE * element);
+				if ((x <= pxlOffsetOfCurrentElement + SINGLE_BUBBLE_SIZE && x >= pxlOffsetOfCurrentElement) && ( y >= pxlOffsetPerRow-(SINGLE_BUBBLE_SIZE) && y <= pxlOffsetPerRow + SINGLE_BUBBLE_SIZE))
+				{
+					m_xPixelCount = element;
+					m_yPixelCount = row;
+					m_bubbleReachedEnd = true;				// collision detected
+				}
+			}
+		}
 	}
+
+	if (m_bubbleReachedEnd != true && y <= BUBBLE_PXL_BOARDER_SPACING)
+	{
+		for (int lastElements = 0; lastElements < BUBBLE_ARRAY_EVEN_X; lastElements)
+		{
+			if (bubbleArray[0][lastElements] == nullptr && (x >= BUBBLE_PXL_OFFSET_EVEN_X + (SINGLE_BUBBLE_SIZE * lastElements) && x <= BUBBLE_PXL_OFFSET_EVEN_X + SINGLE_BUBBLE_SIZE + (SINGLE_BUBBLE_SIZE*lastElements)))
+			{
+				m_yPixelCount = -1;
+				m_xPixelCount = lastElements;
+			}
+		}
+	}
+	
 	return recalculatedVector;
 }
 

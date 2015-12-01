@@ -3,13 +3,7 @@
 #include "cGameEngine.h"
 #include <iostream>
 
-// Include All Bubble Types 
-#include "cRegularBubble.h"
-#include "cFirePopBubble.h"
-#include "cMatchColorBubble.h"
-#include "cPopAllSameColorBubble.h"
-#include "cRandomColorBubble.h"
-#include "cStaticBubble.h"
+
 
 cGameEngine::cGameEngine() : m_gameRender(new cRender)
 {
@@ -123,9 +117,6 @@ void cGameEngine::RunGame()
 					break;
 				}
 			}
-
-			//m_gameRender->DisplayCurrentPlayField();
-			// Display updated game board
 		}
 		m_gameRender->DisplayCurrentPlayField();
 	}
@@ -144,12 +135,8 @@ void cGameEngine::HackGame()
 	int x = rand() % BUBBLE_ARRAY_EVEN_X; // Genrate number from 0-8
 	delete m_gameRender->m_bubbleArray[0][x];	// Delete current bubble
 												// generate a random bubble 
-	m_gameRender->m_bubbleArray[0][x] = static_cast<cBubble*> 
-						(new cRegularBubble(m_gameRender->m_gRenderer, RED));
-	m_gameRender->m_bubbleArray[0][x]->SetBubbleDestinationRectangle
-					(BUBBLE_PXL_OFFSET_EVEN_X +
-							(x * SINGLE_BUBBLE_SIZE),
-								BUBBLE_PXL_BOARDER_SPACING); 
+	m_gameRender->m_bubbleArray[0][x] = static_cast<cBubble*> (new cRegularBubble(m_gameRender->m_gRenderer, RED));
+	m_gameRender->m_bubbleArray[0][x]->SetBubbleDestinationRectangle (BUBBLE_PXL_OFFSET_EVEN_X + (x * SINGLE_BUBBLE_SIZE), BUBBLE_PXL_BOARDER_SPACING); 
 											// Set destination of new bubble
 }
 

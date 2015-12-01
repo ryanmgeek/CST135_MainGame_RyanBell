@@ -15,6 +15,7 @@ cBubble::cBubble() :
 	m_y(0),
 	m_previousBubble(nullptr),
 	m_visted(false),
+	m_bubleColor(RED_COLOR),
 	m_surroundingBubbles{}
 {
 	
@@ -60,16 +61,11 @@ cBubble::cBubble(const cBubble & rightSide)	// copy constructor
 
 void cBubble::RenderBubble(SDL_Renderer * m_gRenderer)
 {
-	SDL_RenderCopy(m_gRenderer,
-		m_bubbleTexture,
-		&m_sourceRectangle,
-		&m_destinationRectangle);
+	SDL_RenderCopy(m_gRenderer, m_bubbleTexture, &m_sourceRectangle, &m_destinationRectangle);
 	// Render current bubble to the screen	
 }
 
-void cBubble::SetBubbleDestinationRectangle(int const & xCordinate,
-	int const & yCordinate)
-{
+void cBubble::SetBubbleDestinationRectangle(int const & xCordinate, int const & yCordinate) {
 	//  Check passed coordinates
 	if ((xCordinate >= 0 && yCordinate >= 0) && 
 		(xCordinate <= SCREEN_WIDTH - SINGLE_BUBBLE_SIZE &&
@@ -96,7 +92,7 @@ const int & cBubble::GetTouchingCount() const
 
 void cBubble::LoadBubbleMedia(SDL_Renderer * m_gRenderer)
 {
-	SDL_Surface * tempSurface = nullptr;	// Load image to temporary surface
+	SDL_Surface * tempSurface = nullptr;		// Load image to temporary surface
 	tempSurface = IMG_Load(BUBBLE_IMG_PATH);
 	m_bubbleTexture = SDL_CreateTextureFromSurface(m_gRenderer, tempSurface);
 	if (m_bubbleTexture == nullptr)
@@ -107,17 +103,15 @@ void cBubble::LoadBubbleMedia(SDL_Renderer * m_gRenderer)
 	SDL_FreeSurface(tempSurface);
 	// Free surface after texture has been created
 
-	m_destinationRectangle.w =
-		m_destinationRectangle.h =
-		m_sourceRectangle.w =
-		m_sourceRectangle.h =
-		SINGLE_BUBBLE_SIZE;	// Set rectangle width/ height the same
+	m_destinationRectangle.w = m_destinationRectangle.h = m_sourceRectangle.w = m_sourceRectangle.h = SINGLE_BUBBLE_SIZE;	// Set rectangle width/ height the same
 
 	int xCordinate = m_bubbleType;
 	while (xCordinate - RED_EQUAL >= 0)	// Make x in the range of 0-5
 	{
 		xCordinate -= RED_EQUAL;
 	}
+	m_bubleColor = static_cast<BUBBLE_COLOR> (xCordinate);
+
 	int yCordinate = m_bubbleType / BUBBLEIMG_BUBBLES_PER_ROW;
 	// Make y correlate to a bubble row
 
@@ -128,8 +122,29 @@ void cBubble::LoadBubbleMedia(SDL_Renderer * m_gRenderer)
 
 void cBubble::Pop(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer)
 {
-	// call pop animation function and destroy the bubble
+	int oddOrEven = 0;
+	for (int y = 0; y < BUBBLE_ARRAY_ROWS_Y; y++)
+	{
+		if (y % 2 == 0)
+		{
+			oddOrEven = BUBBLE_ARRAY_EVEN_X;
+		}
+		else
+		{
+			oddOrEven = BUBBLE_ARRAY_ODD_X;
+		}
+		for (int x = 0; x < oddOrEven; x++)
+		{
+			if (bubbleArray[y][x] != nullptr && bubbleArray[y][x]->m_touchingBubbleCount >= BUBBLEIMG_BUBBLE_ROWS)
+			{
+				delete bubbleArray[y][x];
+				bubbleArray[y][x] = nullptr;
+			}
+		}
+
+	}
 }
+
 
 void cBubble::SpecialEffect(cBubble ** bubbleArray[],
 	SDL_Renderer * m_gRenderer)
@@ -142,77 +157,6 @@ void cBubble::SetTouching(const int & newTouchCount)
 	m_touchingBubbleCount = newTouchCount;
 }
 
-
-void cBubble::CalcualteBubbleVector(const int & arrowDegrees)
-{
-	if (m_physicsEngine->m_bubbleReachedEnd != true)
-	{
-		int yIncreasePixel = 0; //calculate remained on the y cordinate
-		m_physicsEngine->m_yPixelCount += (m_physicsEngine->m_yMovement -
-			static_cast<int>(m_physicsEngine->m_yMovement));
-		if (m_physicsEngine->m_yPixelCount >= 1)
-		{
-			m_physicsEngine->m_yPixelCount--;
-			yIncreasePixel++;
-		}
-		int xIncreasePixel = 0;	//Calulate remaainder on the y cordinate
-		m_physicsEngine->m_xPixelCount += (m_physicsEngine->m_xMovemenet -
-			static_cast<int>(m_physicsEngine->m_xMovemenet));
-		if (m_physicsEngine->m_xPixelCount >= 1)
-		{
-			m_physicsEngine->m_xPixelCount--;
-			xIncreasePixel++;
-		}
-
-		//If this is the first call of the physics engine
-		if (m_physicsEngine->m_xMovemenet == 0 &&
-			m_physicsEngine->m_yMovement == 0)
-		{
-			m_physicsEngine->m_shotAtDegree =
-					RIGHTTRIANGLEANGLE - arrowDegrees;
-			m_physicsEngine->CalculateVector();
-
-			int  y = static_cast <int>(FIRED_BUBBLE_Y -
-								m_physicsEngine->m_yMovement);
-			int x = static_cast <int>(FIRED_BUBBLE_X +
-									m_physicsEngine->m_xMovemenet);
-
-			SetBubbleDestinationRectangle(x, y);
-		}
-		else
-		{
-			//If the vector has been calulcualted at least once
-		}
-		{
-			int x = static_cast<int>(m_destinationRectangle.x + 
-											m_physicsEngine->m_xMovemenet
-				+ xIncreasePixel);
-			int y = static_cast<int>(m_destinationRectangle.y -
-											m_physicsEngine->m_yMovement
-				- yIncreasePixel);
-
-			bool recalculatedVector = m_physicsEngine->CheckVector(x, y);
-
-			if (recalculatedVector == true)
-			{
-				x = static_cast<int>(m_destinationRectangle.x + 
-											m_physicsEngine->m_xMovemenet
-					+ xIncreasePixel);
-				y = static_cast<int>(m_destinationRectangle.y - 
-									m_physicsEngine->m_yMovement
-					- yIncreasePixel);
-			}
-			if (m_physicsEngine->m_bubbleReachedEnd != true)
-			{
-				SetBubbleDestinationRectangle(x, y);
-			}
-			else
-			{
-				SetBubbleDestinationRectangle(x, BUBBLE_PXL_BOARDER_SPACING);
-			}
-		}
-	}
-}
 
 void cBubble::SetArrayLocations(int const &y, int const &x)
 {
@@ -263,6 +207,26 @@ const int & cBubble::GetTouchCount()
 	return m_touchingBubbleCount;
 }
 
+const int & cBubble::GetXLocation()
+{
+	return m_x;
+}
+
+const int & cBubble::GetYLocation()
+{
+	return m_y;
+}
+
+const SDL_Rect cBubble::GetDestinationRect()
+{
+	return m_destinationRectangle;
+}
+
+cBubble ** cBubble::GetSurrounding()
+{
+	return m_surroundingBubbles;
+}
+
 const BUBBLE_TYPE & cBubble::GetBubbleType()
 {
 	return m_bubbleType;
@@ -280,8 +244,7 @@ void cBubble::SetPrevious(cBubble * previousBubble)
 
 }
 
-void cBubble::SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, 
-														cBubble* nearbyBubble)
+void cBubble::SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, cBubble* nearbyBubble)
 {
 	if (nearbyBubble != nullptr)
 	{
@@ -294,3 +257,95 @@ void cBubble::SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation,
 	}
 }
 
+void cBubble::SetDestRectViaArray(const int & y, const int & x)
+{
+	SetArrayLocations(y, x);
+
+	int yCordinate = BUBBLE_PXL_BOARDER_SPACING;
+	int xCordinate = BUBBLE_PXL_OFFSET_ODD_X;
+
+	for (int row = 0; row < y; row++)
+	{
+		if (row % 2 == 0)
+		{
+			yCordinate += BUBBLE_PXL_OFFSET_EVEN_Y;
+		}
+		else
+		{
+			yCordinate += BUBBLE_PXL_OFFSET_ODD_Y;
+		}
+	}
+
+	if (y % 2 == 0)
+	{
+		xCordinate = BUBBLE_PXL_OFFSET_EVEN_X;
+	}
+
+	xCordinate += (SINGLE_BUBBLE_SIZE * x);
+
+	SetBubbleDestinationRectangle(xCordinate, yCordinate);
+}
+
+bool cBubble::CalcualteBubbleVector(const int & arrowDegrees, cBubble** bubbleArray[])
+{
+	//If this is the first call of the physics engine
+	if (m_physicsEngine->m_xMovemenet == 0 && m_physicsEngine->m_yMovement == 0)
+	{
+		m_physicsEngine->m_shotAtDegree = RIGHTTRIANGLEANGLE - arrowDegrees;
+		m_physicsEngine->CalculateVector();
+
+		int  y = static_cast <int>(FIRED_BUBBLE_Y - m_physicsEngine->m_yMovement);
+		int x = static_cast <int>(FIRED_BUBBLE_X + m_physicsEngine->m_xMovemenet);
+
+		SetBubbleDestinationRectangle(x, y);
+	}
+
+	else
+	{
+		int yIncreasePixel = 0; //calculate remained on the y coordinate
+
+		m_physicsEngine->m_yPixelCount += (m_physicsEngine->m_yMovement - static_cast<int>(m_physicsEngine->m_yMovement));
+		if (m_physicsEngine->m_yPixelCount >= 1)
+		{
+			m_physicsEngine->m_yPixelCount--;
+			yIncreasePixel++;
+		}
+
+		int xIncreasePixel = 0;	//Calculate remainder on the y coordinate
+
+		m_physicsEngine->m_xPixelCount += (m_physicsEngine->m_xMovemenet - static_cast<int>(m_physicsEngine->m_xMovemenet));
+		if (m_physicsEngine->m_xPixelCount >= 1)
+		{
+			m_physicsEngine->m_xPixelCount--;
+			xIncreasePixel++;
+		}
+
+
+		//If the vector has been calculated at least once
+		int x = static_cast<int>(m_destinationRectangle.x + m_physicsEngine->m_xMovemenet + xIncreasePixel);
+		int y = static_cast<int>(m_destinationRectangle.y - m_physicsEngine->m_yMovement - yIncreasePixel);
+
+		bool recalculatedVector = m_physicsEngine->CheckVector(x, y, bubbleArray); //See if the vector was recalculated (if it hit a wall)
+
+		if (recalculatedVector == true)
+		{
+			//If a wall was hit the bubbles offset needs to be redone before it loads to the renderer
+			x = static_cast<int>(m_destinationRectangle.x + m_physicsEngine->m_xMovemenet + xIncreasePixel);
+			y = static_cast<int>(m_destinationRectangle.y - m_physicsEngine->m_yMovement - yIncreasePixel);
+		}
+
+		// Once the offset is calculated check to see if the boolean for reached end is still not true before displaying it to the screen
+		if (m_physicsEngine->m_bubbleReachedEnd != true)
+		{
+			SetBubbleDestinationRectangle(x, y);
+		}
+		else
+		{
+			m_x = m_physicsEngine->m_xPixelCount;
+			m_y = m_physicsEngine->m_yPixelCount;
+		}
+
+	}
+
+	return m_physicsEngine->m_bubbleReachedEnd;
+}

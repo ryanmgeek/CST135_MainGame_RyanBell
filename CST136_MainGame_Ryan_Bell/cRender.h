@@ -44,7 +44,7 @@
 *	********************************************************************
 *	 Purpose:	Set current Arrow object tilt
 *	 Entry:		Method is called by an invoking class
-*	 Exit:		Arrow object is incramented in passed move direction
+*	 Exit:		Arrow object is incremented in passed move direction
 *	********************************************************************
 * Methods
 * ---------------
@@ -85,18 +85,23 @@
 #include "cBubble.h"
 #include <stack>
 
+// Include All Bubble Types 
+#include "cRegularBubble.h"
+#include "cFirePopBubble.h"
+#include "cMatchColorBubble.h"
+#include "cPopAllSameColorBubble.h"
+#include "cRandomColorBubble.h"
+#include "cStaticBubble.h"
+
+
 using std::stack;
 
-char * const GAME_NAME = "Techno Bubble Puzzle";	// Name of the game
-char* const BACKGROUND_IMAGE_PATH[] = { "Backsplash.png", "Background.png" };
-//Image paths to backgrounds 
-enum IMAGE_PATHS {
-	BACKSPASH, BACKGROUND, TOTAL_BACKGROUNDS
-};
-//Index of array of background textures  
+char * const GAME_NAME = "Techno Bubble Puzzle";									// Name of the game
+char* const BACKGROUND_IMAGE_PATH[] = { "Backsplash.png", "Background.png" };		// Image paths to backgrounds 
+enum IMAGE_PATHS { BACKSPASH, BACKGROUND, TOTAL_BACKGROUNDS };						// Index of array of background textures  
+const int MAX_ARROW_DEGREE = 80;													// Max Incline of arrow possible
+const int PXL_ROUNDING = 5;															// Fudge room in calculating bubble collisions
 
-
-const int MAX_ARROW_DEGREE = 80;				//Max Incline of arrow possible
 
 class cRender
 {
@@ -115,6 +120,7 @@ private:
 	bool Initalize();
 	bool LoadMedia();
 	void DiscernNearbyBubbles(int y, int x);
+	void DetermineArrayLocation();
 
 	cBubble ** m_bubbleArray[BUBBLE_ARRAY_ROWS_Y];		//MAIN buble array
 	cArrow * m_shooterArrow;						//Bubble shooter graphic

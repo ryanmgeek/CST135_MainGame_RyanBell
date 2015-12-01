@@ -63,17 +63,7 @@
 #define CGAMEENGINE_H
 #include "cRender.h" 
 
-const int NUMBER_OF_START_ROWS = 6;	   //Rows of bubbles to start the game with
-
-
-const int BUBBLE_PXL_OFFSET_EVEN_X = 576;
-// Number of pixels to offset even rows
-const int BUBBLE_PXL_OFFSET_ODD_X = 624;
-// Number of pixels to offset odd rows						
-const int BUBBLE_PXL_OFFSET_EVEN_Y = 84;
-//Number of pixels to offset the heigt of even rows
-const int BUBBLE_PXL_OFFSET_ODD_Y = 82;
-//Number of pixels to offset the heigt of odd rows
+const int NUMBER_OF_START_ROWS = 6;	   // Rows of bubbles to start the game with
 
 class cGameEngine
 {

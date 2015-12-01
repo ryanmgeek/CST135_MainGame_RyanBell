@@ -5,13 +5,10 @@
 cMatchColorBubble::cMatchColorBubble(SDL_Renderer * m_gRenderer)
 {
 	// Genrate random color of equlas bubble type
-	m_bubbleType = 
-				static_cast<BUBBLE_TYPE>((rand() % (WHITE + 1)) +  RED_EQUAL);
-	LoadBubbleMedia(m_gRenderer);
+	m_bubbleType = static_cast<BUBBLE_TYPE>((rand() % (WHITE + 1)) +  RED_EQUAL); 	LoadBubbleMedia(m_gRenderer);
 }
 
-cMatchColorBubble::cMatchColorBubble(SDL_Renderer * m_gRenderer, 
-														BUBBLE_TYPE bubbleType)
+cMatchColorBubble::cMatchColorBubble(SDL_Renderer * m_gRenderer, BUBBLE_TYPE bubbleType)
 {
 	if (bubbleType < RED_EQUAL || bubbleType > WHITE_EQUAL)
 	{

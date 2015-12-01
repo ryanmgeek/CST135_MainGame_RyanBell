@@ -59,32 +59,26 @@ NA
 #define CBUBBLEPHYSICS
 #include <cmath>
 
-const int SCREEN_WIDTH = 1920;
-// Screen Size -width (in pixels)
-const int SCREEN_HEIGHT = 1080;
-// Screen Size - height (in pixels)
-const int BUBBLE_PXL_BOARDER_SPACING = 24;
-//Number of pixels on the boarder
-const int SINGLE_BUBBLE_SIZE = 96;//Pixel radious of a single bubble
-const int FIRED_BUBBLE_X = (SCREEN_WIDTH / 2) - (SINGLE_BUBBLE_SIZE / 2) + 1;
-//Fired bubble x Cordinate in pixels
-const int FIRED_BUBBLE_Y = SCREEN_HEIGHT - SINGLE_BUBBLE_SIZE - 7;
-//Fired bubble y Cordinate in pixels
-const int LENGTH_OF_ARROW = 185;
-//Length in pixels of the shooter arrow image
-const int AREAOFTRIANGLE = 180;
-//All of the angles of a triangle added togehter to compute area
-const int RIGHTTRIANGLEANGLE = 90;
-//Right triangle vertical angle 
-const double PI = 3.141592653589793;
-//Delicious and yummy pie 
-const int PIXELS_TO_MOVE_BUBBLE_PERSECOND = 50;
-//How many pixels per second a bubble 
-//will move over (Speed of how fast they move)
-const int LEFT_EDGE_PLAYFEILD = 576;
-//The left most edge that bubbles will collide with in pixels
-const int RIGHT_EDGE_PLAYFEILD = 1344 - SINGLE_BUBBLE_SIZE;
-//The right most edge that bubbles will collide with in pixel
+const int SCREEN_WIDTH = 1920;													// Screen Size -width (in pixels)
+const int SCREEN_HEIGHT = 1080;													// Screen Size - height (in pixels)
+const int BUBBLE_PXL_BOARDER_SPACING = 24;										// Number of pixels on the boarder
+const int SINGLE_BUBBLE_SIZE = 96;												// Pixel radius of a single bubble
+const int FIRED_BUBBLE_X = (SCREEN_WIDTH / 2) - (SINGLE_BUBBLE_SIZE / 2) + 1;	// Fired bubble x Coordinate in pixels
+const int FIRED_BUBBLE_Y = SCREEN_HEIGHT - SINGLE_BUBBLE_SIZE - 7;				// Fired bubble y Coordinate in pixels
+const int LENGTH_OF_ARROW = 185;												// Length in pixels of the shooter arrow image
+const int AREAOFTRIANGLE = 180;													// All of the angles of a triangle added together to compute area
+const int RIGHTTRIANGLEANGLE = 90;												// Right triangle vertical angle 
+const double PI = 3.141592653589793;											// Delicious and yummy pie 
+const int PIXELS_TO_MOVE_BUBBLE_PERSECOND = 50;									// How many pixels per second a bubble will move, when fired
+const int LEFT_EDGE_PLAYFEILD = 576;											// The left most edge that bubbles will collide with in pixels
+const int RIGHT_EDGE_PLAYFEILD = 1344 - SINGLE_BUBBLE_SIZE;						// The right most edge that bubbles will collide with in pixel
+const int BUBBLE_PXL_OFFSET_EVEN_Y = 84;										// Number of pixels to offset the height of even rows
+const int BUBBLE_PXL_OFFSET_ODD_Y = 82;											// Number of pixels to offset the heigt of odd rows
+const int BUBBLE_ARRAY_ROWS_Y = 11;												// Max number of rows of bubbles (0-10)
+const int BUBBLE_ARRAY_EVEN_X = 8;												// Max number of bubbles in an even row (0,2,4,6,8,10)
+const int BUBBLE_ARRAY_ODD_X = 7;												// Max number of bubbles in an odd row (1,3,5,7,9)
+const int BUBBLE_PXL_OFFSET_EVEN_X = 576;										// Number of pixels to offset even rows
+const int BUBBLE_PXL_OFFSET_ODD_X = 624;										// Number of pixels to offset odd rows			
 
 class cBubblePhysics
 {
@@ -96,20 +90,20 @@ public:
 	cBubblePhysics & operator=(const cBubblePhysics &rightSide);
 
 	void CalculateVector();
-	bool CheckVector(int x, int y);
+	bool CheckVector(int x, int y, cBubble** bubbleArray[]);
 private:
 	double m_xMovemenet;
-	//The caluclated amount of pixels to shift along the x-axis
+	//The calculated amount of pixels to shift along the x-axis
 	double m_yMovement;
 	//The calculated amount of pixels to move along the y-axis
 	int m_shotAtDegree;
-	//The intial degree that the bubble was fired at
+	//The initial degree that the bubble was fired at
 	double m_yPixelCount;
 	//The carry over from moving along the y axis with a double value  
 	double m_xPixelCount;
-	//The caryy over from moving along the x axis with a double value
+	//The carny over from moving along the x axis with a double value
 	bool m_bubbleReachedEnd;
-	//Boolean wether the bubble has reached the end of the screen
+	//Boolean weather the bubble has reached the end of the screen
 };
 
 #endif

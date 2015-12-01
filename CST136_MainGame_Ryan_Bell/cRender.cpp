@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 
 
+
 using std::cout;	// Error checking purposes
 using std::endl;
 
@@ -229,7 +230,23 @@ void cRender::DisplayCurrentPlayField()
 	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKSPASH], nullptr, nullptr); 
 														// Render Backsplash
 	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKGROUND], nullptr, nullptr); 
-															// Render Background
+
+
+	if (m_userFiredABubble == true)
+	{
+		bool reachedEnd = m_firedBubble->CalcualteBubbleVector(m_shooterArrow->m_degreesRotation, m_bubbleArray);
+		if (reachedEnd == true)
+		{
+			DetermineArrayLocation();
+			m_userFiredABubble = false;
+			m_bubbleArray[0][0]->Pop(m_bubbleArray, m_gRenderer);
+		}
+	}
+
+	if (m_firedBubble != nullptr)
+	{
+		m_firedBubble->RenderBubble(m_gRenderer); // Render fire Bubble to screen
+	}														// Render Background
 
 	int xLength; // integer to hold whether row is even or odd
 	for (int y = 0; y < BUBBLE_ARRAY_ROWS_Y; y++)
@@ -253,13 +270,7 @@ void cRender::DisplayCurrentPlayField()
 	}
 	m_shooterArrow->RenderArrow(m_gRenderer); // Render arrow to scrren
 
-	if (m_userFiredABubble == true)
-	{
-		m_firedBubble->CalcualteBubbleVector
-			(m_shooterArrow->m_degreesRotation);
-	}
-
-	m_firedBubble->RenderBubble(m_gRenderer); // Render fire Bubble to screen
+	
 	SDL_RenderPresent(m_gRenderer);	// Update screen
 	m_frameCount++;
 
@@ -306,8 +317,30 @@ void cRender::SetArrowPosition(const Direction & moveDirection)
 
 void cRender::CalculateTouchingCounts()
 {
-	//+++ NEED to null touch counts and next to and previous
+
 	int oddOrEven = 0;
+	for (int y = 0; y < BUBBLE_ARRAY_ROWS_Y; y++)
+	{
+		if (y % 2 == 0)
+			oddOrEven = BUBBLE_ARRAY_EVEN_X;
+		else
+			oddOrEven = BUBBLE_ARRAY_ODD_X;
+			
+		for (int x = 0; x < oddOrEven; x++)
+		{
+			if (m_bubbleArray[y][x] != nullptr)
+			{
+				m_bubbleArray[y][x]->SetPrevious(nullptr);
+				for (int i = RIGHT_HAND; i < URIGHT; i++)
+				{
+					m_bubbleArray[y][x]->SetSurroundingBubbles(static_cast<BUBBLE_LOCATION>(i), nullptr);
+				}
+				m_bubbleArray[y][x]->SetVisted(false);
+			}
+		}
+	}
+
+
 	for (int yRow = 0; yRow < BUBBLE_ARRAY_ROWS_Y; yRow++)
 	{
 		if (yRow % 2 == 0)
@@ -583,5 +616,133 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 	
 }
 
+void cRender::DetermineArrayLocation()
+{
+	bool tryAgain = false;
+	int hitBubbleX = m_firedBubble->GetXLocation();
+	int hitBubbleY = m_firedBubble->GetYLocation();
 
+	int hitBubblePixX = m_bubbleArray[hitBubbleY][hitBubbleX]->GetDestinationRect().x;
+	int hitBubblePixY = m_bubbleArray[hitBubbleY][hitBubbleX]->GetDestinationRect().y;
 
+	int firedPixX = m_firedBubble->GetDestinationRect().x;
+	int firedPixY = m_firedBubble->GetDestinationRect().y;
+
+	bool hitBubbleOnEven = true;
+	{
+		if (hitBubbleY % 2 != 0)
+		{
+			hitBubbleOnEven = false;
+		}
+	}
+
+	if (firedPixY + (SINGLE_BUBBLE_SIZE / 2) > hitBubblePixY + (SINGLE_BUBBLE_SIZE / 2)) // The center of the fired bubble hit below the center of the other bubble
+	{
+		if (firedPixX + (SINGLE_BUBBLE_SIZE / 2) > hitBubblePixX + (SINGLE_BUBBLE_SIZE / 2))  // If the center of fired bubble hit to the right of the center of the other bubble
+		{
+			// Below and to the right
+			if (hitBubbleOnEven == true)	// Bubble is being added to an odd row 
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY + 1, hitBubbleX);
+			}
+			else // Bubble is being added to an even row
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY + 1, hitBubbleX + 1);
+			}
+		}
+		else																				  // If the center of fired bubble hit to the Left of the center of the other bubble
+		{
+			// Below and to the left
+			if (hitBubbleOnEven == true) // Bubble is being added to an odd row 
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY + 1, hitBubbleX - 1);
+			}
+			else // Bubble is being added to an even row
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY + 1, hitBubbleX);
+			}
+		}
+	}
+	else if (firedPixY + (SINGLE_BUBBLE_SIZE / 2) < hitBubblePixY + (SINGLE_BUBBLE_SIZE / 2)) // The center of the fired bubble hit above the center of the other bubble
+	{
+		if (firedPixX + (SINGLE_BUBBLE_SIZE / 2) > hitBubblePixX + (SINGLE_BUBBLE_SIZE / 2))  // If the center of fired bubble hit to the right of the center of the other bubble
+		{
+			// above and to the right 
+			if (hitBubbleOnEven == true)// Bubble is being added to an odd row 
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY - 1, hitBubbleX);
+			}
+			else // Bubble is being added to an even row
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY - 1, hitBubbleX + 1);
+			}
+		}
+		else																				  // If the center of fired bubble hit to the Left of the center of the other bubble
+		{
+			// Above and to the left
+			if (hitBubbleOnEven == true)  // Bubble is being added to an odd row 
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY - 1, hitBubbleX - 1);
+			}
+			else   // Bubble is being added to an even row
+			{
+				m_firedBubble->SetDestRectViaArray(hitBubbleY - 1, hitBubbleX);
+			}
+		}
+	}
+	else if (firedPixY + SINGLE_BUBBLE_SIZE / 2 == hitBubblePixY + (SINGLE_BUBBLE_SIZE / 2)) // the centers of the two bubbles match
+	{
+		if (firedPixX + (SINGLE_BUBBLE_SIZE / 2) > hitBubblePixX + (SINGLE_BUBBLE_SIZE / 2))  // If the center of fired bubble hit to the right of the center of the other bubble
+		{
+			// To the right on the same row
+			m_firedBubble->SetDestRectViaArray(hitBubbleY, hitBubbleX + 1);
+
+		}
+		else																				  // If the center of fired bubble hit to the Left of the center of the other bubble
+		{
+			// To the left and on the same row
+			m_firedBubble->SetDestRectViaArray(hitBubbleY, hitBubbleX - 1);
+		}
+	}
+	else
+	{
+		cout << "The bubbles y value was unaccounted for" << endl;
+	}
+	
+	BUBBLE_TYPE firedType = m_firedBubble->GetBubbleType();
+	int xLocation = m_firedBubble->GetXLocation();
+	int yLocation = m_firedBubble->GetYLocation();
+	
+	if (firedType >= RED && firedType <= WHITE)
+	{
+		m_bubbleArray[yLocation][xLocation] = new cRegularBubble(m_gRenderer, firedType);
+	}
+	else if (firedType >= RED_EQUAL && firedType <= WHITE_EQUAL)
+	{
+		m_bubbleArray[yLocation][xLocation] = new cMatchColorBubble(m_gRenderer, firedType);
+	}
+	else if (firedType >= RED_POP && firedType <= WHITE_POP)
+	{
+		m_bubbleArray[yLocation][xLocation] = new cPopAllSameColorBubble(m_gRenderer, firedType);
+	}
+	else
+	{
+		if (firedType == FIRE)
+		{
+			m_bubbleArray[yLocation][xLocation] = new cPopAllSameColorBubble(m_gRenderer);
+		}
+		else if (firedType == RANDOMRECOLOR)
+		{
+			m_bubbleArray[yLocation][xLocation] = new cPopAllSameColorBubble(m_gRenderer);
+		}
+		else if (firedType == STATIC)
+		{
+			m_bubbleArray[yLocation][xLocation] = new cPopAllSameColorBubble(m_gRenderer);
+		}
+		else
+		{
+			cout << "Unknown type of bubble being created in renderer" << endl;
+		}
+	}
+	m_bubbleArray[yLocation][xLocation]->SetDestRectViaArray(yLocation, xLocation);
+}
