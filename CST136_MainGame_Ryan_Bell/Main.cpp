@@ -2,8 +2,8 @@
 /***********************************************************************
 * Author:							Ryan Bell
 * Date Created:						09/02/15
-* Last Modification Date:			11/16/15
-* Lab Number:						CST 136 Lab 5
+* Last Modification Date:			11/24/15
+* Lab Number:						CST 136 Lab 7
 * Filename:							CST136_lab5_Ryan Bell
 *
 *	Overview:
@@ -13,8 +13,8 @@
 *		demonstrate Use of dynamic memory management to create new
 *		objects, implementation of the orthodox conical class form,
 *		demonstration of objects being dynamically created and
-*		destroyed on screen, include a PVBC and ABC, and use SDL_Textures to move
-*		objects on screen.
+*		destroyed on screen, include a PVBC and ABC, and use SDL_Textures 
+*		to move objects on screen, and the use of stl libraries.
 *
 *	Input:
 *	------
@@ -47,7 +47,8 @@
 
 int main (int argc, char * argv[])
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // For demonstration Purposes
+	// For demonstration Purposes
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); 
 
 	cGameEngine mainGame;				// Instantiate MainGame object
 	mainGame.BeginGame();				// Startup game and load defaults

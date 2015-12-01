@@ -59,14 +59,14 @@
 *	********************************************************************
 *	 Purpose:  Set the bubble's arrayLocation data memenbbers
 *	 Entry:	   Bubble is instatiated and its coorditaes in the array are needed
-*	 Exit:	   The bubboles arrayLocation data memebers are set to
+*	 Exit:	   The bubboles arrayLocation data memebers are set to 
 *			   the passed x and y values
 *	********************************************************************
 *	virtual void SetTouching(const int & newTouchCount);
 *	********************************************************************
 *	 Purpose:  Set the bubble's touchcount data memenbbers
 *	 Entry:	  CalculateBubblesTouchCount is called for the bubblearray
-*	 Exit:	  The bubble's count of how many of the same type of bubbles
+*	 Exit:	  The bubble's count of how many of the same type of bubbles 
 *			  that it is touching is set to the passed value
 *	********************************************************************
 *	void SetVisted(const bool& updatedVisted);
@@ -79,7 +79,7 @@
 *	********************************************************************
 *	 Purpose:  Set the bubble's previous bubble pointer to the passed bubble
 *	 Entry:	 CalcluateBubblesTouchVCount is called by Renderer
-*	 Exit:	The bubble's previous bubble data memeber is set to the passed
+*	 Exit:	The bubble's previous bubble data memeber is set to the passed 
 *			cBubble
 *	********************************************************************
 * Methods
@@ -152,23 +152,23 @@ const int BUBBLEIMG_BUBBLES_PER_ROW = 6;
 const int BUBBLEIMG_BUBBLE_ROWS = 3;
 const int MAX_SURROUNDING_BUBBLES = 6;
 const int ARROW_ROTATION_INCRAMENT = 5;			//Amount to roatate arrow by
-
-												//All possible bubble types
+												
+//All possible bubble types
 enum BUBBLE_TYPE
 {
 	RED, YELLOW, GREEN, BLUE, PURPLE, WHITE,
-	RED_EQUAL, YELLOW_EQUAL, GREEN_EQUAL, BLUE_EQUAL, PURPLE_EQUAL, WHITE_EQUAL,
+	RED_EQUAL, YELLOW_EQUAL,GREEN_EQUAL, BLUE_EQUAL, PURPLE_EQUAL, WHITE_EQUAL,
 	RED_POP, YELLOW_POP, GREEN_POP, BLUE_POP, PURPLE_POP, WHITE_POP,
 	FIRE, RANDOMRECOLOR, STATIC, TOTALBUBBLES
 };
 //Every Location a bubble can exsit at surrounding a bubble
 enum BUBBLE_LOCATION
-{
+{ 
 	RIGHT_HAND, LRIGHT, LLEFT, LEFT_HAND, ULEFT, URIGHT
 };
 
 //Bubble types cataries
-enum BUBBLE_EFFECT
+enum BUBBLE_EFFECT 
 {
 	SPECIAL, POP, EQUAL, CLAW
 };
@@ -188,7 +188,7 @@ public:
 	cBubble(const cBubble & rightSide);
 
 	virtual void SpecialEffect(cBubble ** bubbleArray[],
-		SDL_Renderer * m_gRenderer);
+												   SDL_Renderer * m_gRenderer);
 	virtual void Pop(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
 	void RenderBubble(SDL_Renderer * m_gRenderer);
 	void CalcualteBubbleVector(const int& arrowDegrees);
@@ -198,13 +198,13 @@ public:
 	const int & GetTouchCount(); //For demonstration purposes (press K)
 
 	void SetBubbleDestinationRectangle(int const &xCordinate,
-		int const &yCordinate);
+													    int const &yCordinate);
 	void SetArrayLocations(int const &y, int const &x);
 	virtual void SetTouching(const int & newTouchCount);
 	void SetVisted(const bool& updatedVisted);
 	void SetPrevious(cBubble * previousBubble);
-	void SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation,
-		cBubble* nearbyBubble);
+	void SetSurroundingBubbles(BUBBLE_LOCATION bubbleLocation, 
+													    cBubble* nearbyBubble);
 
 protected:
 	int m_touchingBubbleCount;	//Number of bubbles touching of the same type

@@ -10,7 +10,8 @@ public:
 	cStaticBubble(SDL_Renderer * m_gRenderer);
 	~cStaticBubble();
 
-	void IncreaseTouching(cBubble ** bubbleArray[], SDL_Renderer * m_gRenderer);
+	void IncreaseTouching(cBubble ** bubbleArray[],
+												  SDL_Renderer * m_gRenderer);
 	void DisplayPopAnimation();
 };
 #endif

@@ -71,11 +71,11 @@
 *	***********************************************************************
 *	void DiscernNearbyBubbles(int y, int x);
 *	********************************************************************
-*	 Purpose:	Recersively go through the bubble array and determine the
+*	 Purpose:	Recersively go through the bubble array and determine the 
 *				number of bubbles in a group
 *	 Entry :	Is called by CalculateTouchingCount for a bubble that has
 *				not been visted
-*	 Exit :		The bubbles previous bubble and surrounding bubbles are set
+*	 Exit :		The bubbles previous bubble and surrounding bubbles are set 
 *				and marked as visted. Then popped onto the m_vistedBubble stack
 ***********************************************************************/
 

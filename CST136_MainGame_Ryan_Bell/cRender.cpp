@@ -9,15 +9,14 @@
 using std::cout;	// Error checking purposes
 using std::endl;
 
-cRender::cRender() : 
-	m_shooterArrow(nullptr),
-	m_gWindow(nullptr),
-	m_gRenderer(nullptr),
-	m_gTextures{},
-	m_bubbleArray{},
-	m_firedBubble(nullptr),
-	m_frameCount(0),
-	m_userFiredABubble(false)// Base memeber initalize to values
+cRender::cRender() : m_shooterArrow(nullptr),
+m_gWindow(nullptr),
+m_gRenderer(nullptr),
+m_gTextures{},
+m_bubbleArray{},
+m_firedBubble(nullptr),
+m_frameCount(0),
+m_userFiredABubble(false)// Base memeber initalize to values
 {
 	if (Initalize() == false) // Call initalize function
 	{
@@ -103,7 +102,7 @@ cRender::~cRender()
 bool cRender::Initalize()
 {
 	// On initialization generate a random seed
-	srand(static_cast<unsigned int>(time(0)));
+	srand(static_cast<unsigned int>(time(0))); 
 
 	bool Intsuccess = true;
 	// Success flag if everything is initialized correctly  Initialize SDL
@@ -227,10 +226,10 @@ void cRender::DisplayCurrentPlayField()
 	SDL_RenderClear(m_gRenderer); // Clear current rendering surface 
 								  //(cleared to all white)
 
-	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKSPASH], nullptr, nullptr);
-	// Render Backsplash
-	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKGROUND], nullptr, nullptr);
-	// Render Background
+	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKSPASH], nullptr, nullptr); 
+														// Render Backsplash
+	SDL_RenderCopy(m_gRenderer, m_gTextures[BACKGROUND], nullptr, nullptr); 
+															// Render Background
 
 	int xLength; // integer to hold whether row is even or odd
 	for (int y = 0; y < BUBBLE_ARRAY_ROWS_Y; y++)
@@ -330,11 +329,11 @@ void cRender::CalculateTouchingCounts()
 					m_vistedBubbbles.top()->SetTouching(totalGroupingCount);
 					m_vistedBubbbles.pop();
 				}
-
+				
 			}
 			if (m_bubbleArray[yRow][xElement] != nullptr)
 			{
-				cout << "[" << yRow << "] [" << xElement << "].... " <<
+				cout << "[" << yRow << "] [" << xElement << "].... " << 
 					m_bubbleArray[yRow][xElement]->GetTouchCount() << endl;
 
 			}
@@ -375,7 +374,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 
 	}
 	//Bubble is located in the first row of the array 
-	else if (y == 0 && ((y + 1 < BUBBLE_ARRAY_ROWS_Y)
+	else if (y == 0 && ((y + 1 < BUBBLE_ARRAY_ROWS_Y) 
 		&& (x - 1 >= 0) && (x + 1 < oddOrEven)))
 	{
 		checkRight = true;
@@ -385,7 +384,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 	}
 	// Bubble is located on the last row of the array 
 	else if ((y + 1 >= BUBBLE_ARRAY_ROWS_Y) && ((y - 1 > 0) &&
-		(x - 1 >= 0) && (x + 1 < oddOrEven)))
+		(x - 1 >= 0) && (x + 1 < oddOrEven))) 
 	{
 		checkRight = true;
 		checkLeft = true;
@@ -408,7 +407,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 			}
 		}
 		//bubble is at the start or end of the last row
-		else if (y + 1 >= BUBBLE_ARRAY_ROWS_Y)
+		else if (y + 1 >= BUBBLE_ARRAY_ROWS_Y) 
 		{
 			if (x - 1 < 0) //bubble is at the start of the last row
 			{
@@ -424,7 +423,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 		else //Bubble is at the start or end of a normal row
 		{
 			//bubble is at the start of a normal row within the array
-			if (x - 1 < 0)
+			if (x - 1 < 0) 
 			{
 				//bubble is at the start of an even row
 				if (oddOrEven == BUBBLE_ARRAY_EVEN_X)
@@ -441,16 +440,16 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 					checkUpperLeft = true;
 					checkUpperRight = true;
 				}
-
+				
 			}
 			else //bubble is at the end of a normal row within the array
 			{
 				//bubble is at the end of an even row
-				if (oddOrEven == BUBBLE_ARRAY_EVEN_X)
+				if (oddOrEven == BUBBLE_ARRAY_EVEN_X) 
 				{
 					checkLowerLeft = true;
 					checkLeft = true;
-					checkUpperLeft = true;
+					checkUpperLeft = true;					
 				}
 				else	//Bubble is at the end of a odd row
 				{
@@ -467,7 +466,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 	}
 	if (checkRight == true)
 	{
-		if (m_bubbleArray[y][x + 1] != nullptr && thisType ==
+		if (m_bubbleArray[y][x + 1] != nullptr && thisType == 
 			m_bubbleArray[y][x + 1]->GetBubbleType() &&
 			m_bubbleArray[y][x + 1]->GetVisted() != true)//check Right
 		{
@@ -479,9 +478,9 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 	}
 	if (checkLowerRight == true)
 	{
-		if (oddOrEven == BUBBLE_ARRAY_EVEN_X &&
-			m_bubbleArray[y + 1][x] != nullptr &&
-			thisType == m_bubbleArray[y + 1][x]->GetBubbleType() &&
+		if (oddOrEven == BUBBLE_ARRAY_EVEN_X && 
+			m_bubbleArray[y + 1][x] != nullptr && 
+			thisType == m_bubbleArray[y + 1][x]->GetBubbleType() && 
 			m_bubbleArray[y + 1][x]->GetVisted() != true)//Check bottomRight
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles
@@ -489,9 +488,9 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 			m_bubbleArray[y + 1][x]->SetPrevious(m_bubbleArray[y][x]);
 			DiscernNearbyBubbles(y + 1, x);
 		}
-		else if (oddOrEven == BUBBLE_ARRAY_ODD_X &&
-			m_bubbleArray[y + 1][x + 1] != nullptr &&
-			thisType == m_bubbleArray[y + 1][x + 1]->GetBubbleType() &&
+		else if (oddOrEven == BUBBLE_ARRAY_ODD_X && 
+			m_bubbleArray[y + 1][x + 1] != nullptr && 
+			thisType == m_bubbleArray[y + 1][x + 1]->GetBubbleType() && 
 			m_bubbleArray[y + 1][x + 1]->GetVisted() != true)
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles
@@ -503,8 +502,8 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 	if (checkLowerLeft == true)
 	{
 		if (oddOrEven == BUBBLE_ARRAY_EVEN_X &&
-			m_bubbleArray[y + 1][x - 1] != nullptr &&
-			thisType == m_bubbleArray[y + 1][x - 1]->GetBubbleType() &&
+			m_bubbleArray[y + 1][x - 1] != nullptr && 
+			thisType == m_bubbleArray[y + 1][x - 1]->GetBubbleType() && 
 			m_bubbleArray[y + 1][x - 1]->GetVisted() != true)//Check bottomLeft
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles
@@ -513,7 +512,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 			DiscernNearbyBubbles(y + 1, x - 1);
 		}
 		else if (oddOrEven == BUBBLE_ARRAY_ODD_X &&
-			m_bubbleArray[y + 1][x] != nullptr &&
+			m_bubbleArray[y + 1][x] != nullptr && 
 			thisType == m_bubbleArray[y + 1][x]->GetBubbleType() &&
 			m_bubbleArray[y + 1][x]->GetVisted() != true)
 		{
@@ -526,28 +525,28 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 	if (checkLeft == true)
 	{
 		if (m_bubbleArray[y][x - 1] != nullptr &&
-			thisType == m_bubbleArray[y][x - 1]->GetBubbleType() &&
+			thisType == m_bubbleArray[y][x - 1]->GetBubbleType() && 
 			m_bubbleArray[y][x - 1]->GetVisted() != true)//Check Left
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles
 				(LEFT_HAND, m_bubbleArray[y][x - 1]);
 			m_bubbleArray[y][x - 1]->SetPrevious(m_bubbleArray[y][x]);
-			DiscernNearbyBubbles(y, x - 1);
+			DiscernNearbyBubbles(y - 1, x);
 		}
 	}
 	if (checkUpperLeft == true)
 	{
-		if (oddOrEven == BUBBLE_ARRAY_EVEN_X &&
-			m_bubbleArray[y - 1][x - 1] != nullptr &&
-			thisType == m_bubbleArray[y - 1][x - 1]->GetBubbleType() &&
+		if (oddOrEven == BUBBLE_ARRAY_EVEN_X && 
+			m_bubbleArray[y - 1][x - 1] != nullptr && 
+			thisType == m_bubbleArray[y - 1][x - 1]->GetBubbleType() && 
 			m_bubbleArray[y - 1][x - 1]->GetVisted() != true)//Check Upper Left
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles
 				(ULEFT, m_bubbleArray[y - 1][x - 1]);
 			m_bubbleArray[y - 1][x - 1]->SetPrevious(m_bubbleArray[y][x]);
-			DiscernNearbyBubbles(y - 1, x - 1);
+			DiscernNearbyBubbles(y - 1, x -1);
 		}
-		else if (oddOrEven == BUBBLE_ARRAY_ODD_X &&
+		else if (oddOrEven == BUBBLE_ARRAY_ODD_X && 
 			m_bubbleArray[y - 1][x] != nullptr &&
 			thisType == m_bubbleArray[y - 1][x]->GetBubbleType() &&
 			m_bubbleArray[y - 1][x]->GetVisted() != true)
@@ -561,8 +560,8 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 	if (checkUpperRight == true)
 	{
 		if (oddOrEven == BUBBLE_ARRAY_EVEN_X &&
-			m_bubbleArray[y - 1][x] != nullptr &&
-			thisType == m_bubbleArray[y - 1][x]->GetBubbleType() &&
+			m_bubbleArray[y - 1][x] != nullptr && 
+			thisType == m_bubbleArray[y - 1][x]->GetBubbleType() && 
 			m_bubbleArray[y - 1][x]->GetVisted() != true) //Check upper Right
 		{
 			m_bubbleArray[y][x]->SetSurroundingBubbles
@@ -570,8 +569,8 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 			m_bubbleArray[y - 1][x]->SetPrevious(m_bubbleArray[y][x]);
 			DiscernNearbyBubbles(y - 1, x);
 		}
-		else if (oddOrEven == BUBBLE_ARRAY_ODD_X &&
-			m_bubbleArray[y - 1][x + 1] != nullptr &&
+		else if (oddOrEven == BUBBLE_ARRAY_ODD_X && 
+			m_bubbleArray[y - 1][x + 1] != nullptr && 
 			thisType == m_bubbleArray[y - 1][x + 1]->GetBubbleType() &&
 			m_bubbleArray[y - 1][x + 1]->GetVisted() != true)
 		{
@@ -581,7 +580,7 @@ void cRender::DiscernNearbyBubbles(int y, int x)
 			DiscernNearbyBubbles(y - 1, x + 1);
 		}
 	}
-
+	
 }
 
 

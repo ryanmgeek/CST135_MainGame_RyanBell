@@ -144,8 +144,13 @@ void cGameEngine::HackGame()
 	int x = rand() % BUBBLE_ARRAY_EVEN_X; // Genrate number from 0-8
 	delete m_gameRender->m_bubbleArray[0][x];	// Delete current bubble
 												// generate a random bubble 
-	m_gameRender->m_bubbleArray[0][x] = static_cast<cBubble*> (new cRegularBubble(m_gameRender->m_gRenderer, RED));
-	m_gameRender->m_bubbleArray[0][x]->SetBubbleDestinationRectangle(BUBBLE_PXL_OFFSET_EVEN_X + (x * SINGLE_BUBBLE_SIZE), BUBBLE_PXL_BOARDER_SPACING); // Set destination of new bubble
+	m_gameRender->m_bubbleArray[0][x] = static_cast<cBubble*> 
+						(new cRegularBubble(m_gameRender->m_gRenderer, RED));
+	m_gameRender->m_bubbleArray[0][x]->SetBubbleDestinationRectangle
+					(BUBBLE_PXL_OFFSET_EVEN_X +
+							(x * SINGLE_BUBBLE_SIZE),
+								BUBBLE_PXL_BOARDER_SPACING); 
+											// Set destination of new bubble
 }
 
 cBubble * cGameEngine::GenerateBubble()
@@ -170,7 +175,8 @@ cBubble * cGameEngine::GenerateBubble()
 		if (randomBubble == FIRE)
 			returnBubble = new  cFirePopBubble(m_gameRender->GetRenderer());
 		else if (randomBubble == RANDOMRECOLOR)
-			returnBubble = new  cRandomColorBubble(m_gameRender->GetRenderer());
+			returnBubble = new  cRandomColorBubble
+												(m_gameRender->GetRenderer());
 		else if (randomBubble == STATIC)
 			returnBubble = new  cStaticBubble(m_gameRender->GetRenderer());
 	}

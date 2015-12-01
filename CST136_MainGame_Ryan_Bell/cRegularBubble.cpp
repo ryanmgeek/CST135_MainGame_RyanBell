@@ -9,7 +9,8 @@ cRegularBubble::cRegularBubble(SDL_Renderer * m_gRenderer)
 	LoadBubbleMedia(m_gRenderer);
 }
 
-cRegularBubble::cRegularBubble(SDL_Renderer * m_gRenderer, BUBBLE_TYPE bubbleType)
+cRegularBubble::cRegularBubble(SDL_Renderer * m_gRenderer,
+														BUBBLE_TYPE bubbleType)
 {
 	if (bubbleType < RED || bubbleType > WHITE)
 	{

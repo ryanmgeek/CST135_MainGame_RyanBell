@@ -9,7 +9,8 @@ cPopAllSameColorBubble::cPopAllSameColorBubble(SDL_Renderer * m_gRenderer)
 	LoadBubbleMedia(m_gRenderer);
 }
 
-cPopAllSameColorBubble::cPopAllSameColorBubble(SDL_Renderer * m_gRenderer, BUBBLE_TYPE bubbleType)
+cPopAllSameColorBubble::cPopAllSameColorBubble(SDL_Renderer * m_gRenderer, 
+														BUBBLE_TYPE bubbleType)
 {
 	if (bubbleType < RED_POP || bubbleType > WHITE_POP)
 	{

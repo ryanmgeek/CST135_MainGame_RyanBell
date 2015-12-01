@@ -10,7 +10,8 @@ cMatchColorBubble::cMatchColorBubble(SDL_Renderer * m_gRenderer)
 	LoadBubbleMedia(m_gRenderer);
 }
 
-cMatchColorBubble::cMatchColorBubble(SDL_Renderer * m_gRenderer, BUBBLE_TYPE bubbleType)
+cMatchColorBubble::cMatchColorBubble(SDL_Renderer * m_gRenderer, 
+														BUBBLE_TYPE bubbleType)
 {
 	if (bubbleType < RED_EQUAL || bubbleType > WHITE_EQUAL)
 	{

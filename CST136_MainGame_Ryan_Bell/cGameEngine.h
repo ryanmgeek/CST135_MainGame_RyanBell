@@ -63,7 +63,7 @@
 #define CGAMEENGINE_H
 #include "cRender.h" 
 
-const int NUMBER_OF_START_ROWS = 10;	   //Rows of bubbles to start the game with
+const int NUMBER_OF_START_ROWS = 6;	   //Rows of bubbles to start the game with
 
 
 const int BUBBLE_PXL_OFFSET_EVEN_X = 576;
